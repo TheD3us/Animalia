@@ -1,0 +1,17 @@
+#offres{
+    display: grid;
+    align-items: start;
+    grid-template-columns: 30% 30% 30%;
+    justify-content: space-between;
+    padding: 10%;
+}
+
+li{
+    margin-top: 10%;
+    list-style-type: none;
+}
+
+.card-img-top{
+    opacity: 60%;
+
+}
