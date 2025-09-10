@@ -15,3 +15,11 @@ li{
     opacity: 60%;
 
 }
+
+#fenetrelogin{
+    width: 50%;
+    align-self: center;
+    border: black;
+    border-radius: 15%;
+    border-style: solid;
+}
