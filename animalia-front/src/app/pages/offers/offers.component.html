@@ -1,0 +1,31 @@
+
+<div class="container my-5">
+  <div class="text-center mb-5">
+    <h1 class="fw-bold">
+      <i class="fa-solid fa-gift text-primary me-2"></i>
+      Nos Offres Animalia
+    </h1>
+    <p class="lead text-muted">
+      Choisissez le pack qui correspond le mieux à vos besoins et à ceux de votre compagnon
+    </p>
+  </div>
+
+  <div class="row g-4 justify-content-center">
+    @for (offer of offers; track offer.id) {
+      <div class="col-md-4">
+        <app-program-card 
+          [program]="offer" 
+          [showFeatures]="true"
+          (cardClick)="onOfferClick($event)">
+        </app-program-card>
+      </div>
+    }
+  </div>
+
+  <div class="text-center mt-5">
+    <div class="alert alert-info" role="alert">
+      <i class="fa-solid fa-info-circle me-2"></i>
+      <strong>Garantie satisfait ou remboursé</strong> - Essayez nos services pendant 30 jours sans risque !
+    </div>
+  </div>
+</div>

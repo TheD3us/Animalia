@@ -1,0 +1,123 @@
+{
+  "programme": {
+    "lundi": {
+      "nom": "Commando du Cimetière",
+      "echauffement": [
+        "Jogging léger autour du cimetière (5 min)",
+        "Sauts sur place avec ton chien qui saute aussi"
+      ],
+      "exercices": [
+        "5 x tour complet du cimetière (toi en fentes, chien en sprint)",
+        "Squats avec ton chien sur le dos",
+        "Gainage pendant que le chien marche sur toi",
+        "Course relais : toi avec une croix imaginaire, lui avec une branche"
+      ],
+      "etirements": [
+        "Étirements jambes (quadriceps, ischios)",
+        "Massage/détente pour ton chien"
+      ]
+    },
+    "mardi": {
+      "nom": "Étang Gladiator",
+      "echauffement": [
+        "Course autour de l’étang (5 min)",
+        "Sauts dans l’eau peu profonde avec ton chien"
+      ],
+      "exercices": [
+        "5 allers-retours à la nage dans l’étang (toi brasse, lui chien style)",
+        "À chaque retour : 10 burpees sur la berge",
+        "Tractions sur un arbre pendant que ton chien saute pour attraper une balle suspendue",
+        "Course aquatique : premier arrivé à la rive gagne une friandise"
+      ],
+      "etirements": [
+        "Étirements épaules et bras",
+        "Secouage libre et caresses pour ton chien"
+      ]
+    },
+    "mercredi": {
+      "nom": "Crossfit Canin Extrême",
+      "echauffement": [
+        "Corde à sauter (2 min)",
+        "Petit slalom avec ton chien autour de plots ou arbres"
+      ],
+      "exercices": [
+        "Deadlift : soulever ton chien 10 fois (si poids ok)",
+        "Course de 400m attaché avec ton chien par une corde",
+        "Tir à la corde en squat",
+        "Planche avec ton chien qui grimpe sur ton dos"
+      ],
+      "etirements": [
+        "Étirements dos et bras",
+        "Étirements dynamiques avec le chien qui s’étire (position de jeu)"
+      ]
+    },
+    "jeudi": {
+      "nom": "Survie en Forêt",
+      "echauffement": [
+        "Course lente dans les bois (5 min)",
+        "Sauts par-dessus une souche avec ton chien"
+      ],
+      "exercices": [
+        "Sprint fuite ours imaginaire (aboiements obligatoires du chien)",
+        "Squats bûcheron avec grosse branche",
+        "Gainage dans la boue pendant que ton chien creuse",
+        "Capture le maître : ton chien doit te faire tomber"
+      ],
+      "etirements": [
+        "Étirement global bras/épaules/jambes",
+        "Caresse longue pour calmer le chien"
+      ]
+    },
+    "vendredi": {
+      "nom": "Cirque Hardcore WTF",
+      "echauffement": [
+        "Danse freestyle avec ton chien (2 min)",
+        "Tours et roulades légères ensemble"
+      ],
+      "exercices": [
+        "Pompes claquées avec tape-patte",
+        "Squat-jeté avec peluche géante (ou petit chien si poids léger)",
+        "Abdos relais avec frisbee (chien te le ramène)",
+        "Saut de la mort : toi par-dessus le chien, puis lui par-dessus toi"
+      ],
+      "etirements": [
+        "Étirement du dos et du tronc",
+        "Grattouilles relaxantes pour ton chien"
+      ]
+    },
+    "samedi": {
+      "nom": "Marathon Zombie",
+      "echauffement": [
+        "Jogging progressif 1 km",
+        "Sprints courts avec ton chien"
+      ],
+      "exercices": [
+        "Course 10 km autour d’un cimetière poursuivi par ton chien",
+        "Chaque km : 20 squats + 10 pompes",
+        "Ton chien doit attraper une “fausse victime” (jouet) avant toi",
+        "Finisher : sprint final avec hurlements de zombie"
+      ],
+      "etirements": [
+        "Étirements jambes et dos long",
+        "Repos couché avec ton chien"
+      ]
+    },
+    "dimanche": {
+      "nom": "Aquapocalypse",
+      "echauffement": [
+        "Marche active autour de l’étang (5 min)",
+        "Petits plongeons en duo"
+      ],
+      "exercices": [
+        "Nage 1000m avec ton chien qui te suit",
+        "Chaque sortie de l’eau : 30 burpees",
+        "Transport de troncs flottants (toi) et bâtons (lui)",
+        "Relais final : lancer une balle au milieu de l’étang et course pour la ramener"
+      ],
+      "etirements": [
+        "Étirements doux épaules et jambes",
+        "Séchage + massage pour ton chien"
+      ]
+    }
+  }
+}
