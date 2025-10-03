@@ -1,0 +1,17 @@
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.nav-link.active {
+  font-weight: 600;
+  color: var(--bs-primary) !important;
+}
+
+.nav-link:hover {
+  color: var(--bs-primary) !important;
+}
+
+.fa-paw {
+  font-size: 0.875rem;
+}
