@@ -188,9 +188,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Data.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\EventDao.cs" />
     <Compile Include="Models\Events.cs">
       <DependentUpon>Data.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProgramModelDao.cs" />
     <Compile Include="Models\ProgramModels.cs">
       <DependentUpon>Data.tt</DependentUpon>
     </Compile>
@@ -198,6 +200,7 @@
     <Compile Include="Models\Testimonials.cs">
       <DependentUpon>Data.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TrainingDao.cs" />
     <Compile Include="Models\Trainings.cs">
       <DependentUpon>Data.tt</DependentUpon>
     </Compile>
