@@ -257,6 +257,7 @@
     <Content Include="Models\Data.edmx.diagram">
       <DependentUpon>Data.edmx</DependentUpon>
     </Content>
+
     <Content Include="Areas\HelpPage\Views\Web.config">
       <SubType>Designer</SubType>
     </Content>
