@@ -198,9 +198,11 @@
     <Compile Include="Models\Testimonials.cs">
       <DependentUpon>Data.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TrainingDao.cs" />
     <Compile Include="Models\Trainings.cs">
       <DependentUpon>Data.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserDao.cs" />
     <Compile Include="Models\Users.cs">
       <DependentUpon>Data.tt</DependentUpon>
     </Compile>
