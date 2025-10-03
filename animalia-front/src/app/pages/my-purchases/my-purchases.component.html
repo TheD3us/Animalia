@@ -1,0 +1,106 @@
+<div class="container my-5">
+  <h2 class="mb-4">
+    <i class="fa-solid fa-dumbbell me-2 text-primary"></i>
+    Mes Entraînements
+  </h2>
+
+  @if (!isLoggedIn) {
+    <div class="alert alert-warning text-center">
+      <i class="fa-solid fa-exclamation-triangle me-2"></i>
+      Vous devez être connecté pour voir vos entraînements.
+      <a routerLink="/login" class="btn btn-primary ms-3">Se connecter</a>
+    </div>
+  } @else {
+    @if (purchasedWorkouts.length === 0) {
+      <div class="text-center py-5">
+        <i class="fa-solid fa-dumbbell fa-3x text-muted mb-3"></i>
+        <h4 class="text-muted">Aucun entraînement acheté pour le moment</h4>
+        <p class="text-muted">Explorez nos entraînements et ajoutez-les à votre panier pour commencer</p>
+        <a routerLink="/programs" class="btn btn-primary">
+          <i class="fa-solid fa-dumbbell me-2"></i>
+          Voir les entraînements
+        </a>
+      </div>
+    } @else {
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="mb-0">
+                <i class="fa-solid fa-check-circle text-success me-2"></i>
+                Entraînements achetés ({{ purchasedWorkouts.length }})
+              </h5>
+            </div>
+            <div class="card-body">
+              @for (workout of purchasedWorkouts; track workout.id; let i = $index) {
+                <div class="d-flex align-items-center border-bottom py-3 workout-item" 
+                     [class.border-bottom-0]="i === purchasedWorkouts.length - 1"
+                     (click)="viewWorkoutDetail(workout.id)"
+                     style="cursor: pointer;">
+                  <div class="workout-icon me-3">
+                    <i class="fa-solid fa-play-circle fa-2x text-primary"></i>
+                  </div>
+                  <div class="flex-grow-1">
+                    <h6 class="mb-1">{{ workout.title }}</h6>
+                    <p class="text-muted mb-1 small">{{ workout.description }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <small class="text-success">
+                        <i class="fa-solid fa-calendar me-1"></i>
+                        Acheté le {{ workout.purchaseDate | date:'short' }}
+                      </small>
+                      <span class="badge bg-primary">{{ workout.price }}</span>
+                    </div>
+                  </div>
+                  <i class="fa-solid fa-chevron-right text-muted ms-2"></i>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-4">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="mb-0">
+                <i class="fa-solid fa-chart-line me-2"></i>
+                Statistiques
+              </h5>
+            </div>
+            <div class="card-body">
+              <div class="d-flex justify-content-between mb-3">
+                <span>Total d'entraînements:</span>
+                <span class="fw-bold">{{ purchasedWorkouts.length }}</span>
+              </div>
+              <div class="d-flex justify-content-between mb-3">
+                <span>Dernier achat:</span>
+                <span class="fw-bold">{{ getLastPurchaseDate() | date:'short' }}</span>
+              </div>
+              <hr>
+              <div class="d-grid">
+                <a routerLink="/programs" class="btn btn-outline-primary">
+                  <i class="fa-solid fa-plus me-2"></i>
+                  Acheter plus d'entraînements
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="card mt-3">
+            <div class="card-header">
+              <h6 class="mb-0">
+                <i class="fa-solid fa-info-circle me-2"></i>
+                Accès complet
+              </h6>
+            </div>
+            <div class="card-body">
+              <p class="small text-muted mb-0">
+                Vous avez accès au contenu complet de vos entraînements achetés : 
+                échauffement, exercices détaillés, étirements et conseils.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  }
+</div>

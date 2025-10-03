@@ -9,6 +9,15 @@
       </div>
       
       <div class="card-body">
+        <!-- Message informatif si l'utilisateur a des éléments dans le panier -->
+        @if (hasItemsInCart()) {
+          <div class="alert alert-info mb-3">
+            <i class="fa-solid fa-shopping-cart me-2"></i>
+            <strong>Votre panier vous attend !</strong><br>
+            Vous avez {{ cartItemsCount() }} entraînement(s) dans votre panier. Connectez-vous pour finaliser votre sélection.
+          </div>
+        }
+        
         <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
           @if (error()) {
             <div class="alert alert-danger" role="alert">

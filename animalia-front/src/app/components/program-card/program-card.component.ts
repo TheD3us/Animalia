@@ -1,4 +1,5 @@
 import { Component, input, output } from '@angular/core';
+import { CartService } from '../../services/cart.service';
 
 export interface ProgramCard {
   id: string;
@@ -10,6 +11,7 @@ export interface ProgramCard {
   buttonText?: string;
   buttonClass?: string;
   buttonIcon?: string;
+  type?: 'workout' | 'pack'; // Type pour différencier les entraînements des packs
 }
 
 @Component({
@@ -20,15 +22,24 @@ export interface ProgramCard {
   styleUrl: './program-card.component.scss'
 })
 export class ProgramCardComponent {
-  // Angular 20 input signals
   readonly program = input.required<ProgramCard>();
   readonly showFeatures = input<boolean>(false);
   
-  // Angular 20 output signal
   readonly cardClick = output<string>();
 
+  constructor(private cartService: CartService) {}
+
   onCardClick() {
-    // Émetteur d'événement pour gérer les clics
     this.cardClick.emit(this.program().id);
+  }
+
+  onAddToCart() {
+    this.cartService.addItem({
+      id: this.program().id,
+      title: this.program().title,
+      description: this.program().description,
+      type: 'workout',
+      addedAt: new Date()
+    });
   }
 }

@@ -1,0 +1,77 @@
+<div class="container my-5">
+  <h2 class="mb-4">
+    <i class="fa-solid fa-shopping-cart me-2 text-primary"></i>
+    Mon Panier
+  </h2>
+
+  @if (cartItems.length === 0) {
+    <div class="text-center py-5">
+      <i class="fa-solid fa-shopping-cart fa-3x text-muted mb-3"></i>
+      <h4 class="text-muted">Votre panier est vide</h4>
+      <p class="text-muted">Ajoutez des entraînements à votre panier pour commencer</p>
+      <a routerLink="/programs" class="btn btn-primary">
+        <i class="fa-solid fa-dumbbell me-2"></i>
+        Voir les entraînements
+      </a>
+    </div>
+  } @else {
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0">Entraînements sélectionnés ({{ cartItems.length }})</h5>
+          </div>
+          <div class="card-body">
+            @for (item of cartItems; track item.id; let i = $index) {
+              <div class="d-flex align-items-center border-bottom py-3" [class.border-bottom-0]="i === cartItems.length - 1">
+                <div class="flex-grow-1">
+                  <h6 class="mb-1">{{ item.title }}</h6>
+                  <p class="text-muted mb-0 small">{{ item.description }}</p>
+                  <small class="text-muted">Ajouté le {{ item.addedAt | date:'short' }}</small>
+                </div>
+                <button 
+                  class="btn btn-outline-danger btn-sm ms-3"
+                  (click)="removeItem(i)"
+                  title="Supprimer cet entraînement">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-4">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0">Résumé</h5>
+          </div>
+          <div class="card-body">
+            <div class="d-flex justify-content-between mb-3">
+              <span>Entraînements:</span>
+              <span>{{ cartItems.length }}</span>
+            </div>
+            
+            <!-- Message informatif si pas connecté -->
+            <div class="alert alert-info small mb-3" *ngIf="!isLoggedIn">
+              <i class="fa-solid fa-info-circle me-2"></i>
+              Votre panier est sauvegardé même si vous n'êtes pas connecté.
+            </div>
+            
+            <hr>
+            <div class="d-grid gap-2">
+              <button class="btn btn-success" (click)="proceedToCheckout()">
+                <i class="fa-solid fa-credit-card me-2"></i>
+                Valider la sélection
+              </button>
+              <button class="btn btn-outline-danger" (click)="clearCart()">
+                <i class="fa-solid fa-trash me-2"></i>
+                Vider le panier
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

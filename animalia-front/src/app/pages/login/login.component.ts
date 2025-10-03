@@ -1,7 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { SignupFormComponent } from '../../components/signup-form/signup-form.component';
 import { UserData } from '../../interfaces/auth.interface';
+import { AuthService } from '../../services/auth.service';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-login',
@@ -10,10 +13,9 @@ import { UserData } from '../../interfaces/auth.interface';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   private readonly fb = new FormBuilder();
   
-  // Angular 20 reactive form with signals
   protected readonly loginForm = this.fb.group({
     username: ['', [Validators.required, Validators.minLength(3)]],
     password: ['', [Validators.required, Validators.minLength(8)]]
@@ -22,6 +24,20 @@ export class LoginComponent {
   protected readonly isLoading = signal(false);
   protected readonly error = signal<string | null>(null);
   protected readonly showSignupForm = signal(false);
+  protected readonly hasItemsInCart = signal(false);
+  protected readonly cartItemsCount = signal(0);
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private cartService: CartService
+  ) {}
+
+  ngOnInit() {
+    const count = this.cartService.getCount();
+    this.hasItemsInCart.set(count > 0);
+    this.cartItemsCount.set(count);
+  }
 
   onLogin() {
     if (this.loginForm.valid) {
@@ -31,10 +47,21 @@ export class LoginComponent {
       const formData = this.loginForm.value;
       console.log('Tentative de connexion:', formData);
       
-      // Simulation d'une connexion
       setTimeout(() => {
+        const success = this.authService.login(formData);
         this.isLoading.set(false);
-        // Logique de connexion ici
+        
+        if (success) {
+          const hasItemsInCart = this.cartService.getCount() > 0;
+          
+          if (hasItemsInCart) {
+            this.router.navigate(['/cart']);
+          } else {
+            this.router.navigate(['/']);
+          }
+        } else {
+          this.error.set('Nom d\'utilisateur ou mot de passe incorrect');
+        }
       }, 2000);
     } else {
       this.error.set('Veuillez remplir tous les champs correctement');
