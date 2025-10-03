@@ -1,0 +1,48 @@
+<div class="card h-100 shadow-sm" [class]="'border-' + (program().buttonClass?.replace('btn-', '') || '')">
+  @if (program().image) {
+    <img 
+      [src]="program().image" 
+      class="card-img-top" 
+      [alt]="program().title">
+  }
+  
+  <div class="card-body d-flex flex-column">
+    <h5 class="card-title">
+      @if (program().buttonIcon) {
+        <i [class]="program().buttonIcon + ' me-2'"></i>
+      }
+      {{ program().title }}
+    </h5>
+    
+    <p class="card-text flex-grow-1">{{ program().description }}</p>
+    
+    <!-- Prix si disponible -->
+    @if (program().price) {
+      <p class="fw-bold" [class]="'text-' + (program().buttonClass?.replace('btn-', '') || 'primary')">
+        {{ program().price }}
+      </p>
+    }
+    
+    <!-- Fonctionnalités/Arguments -->
+    @if (showFeatures() && program().features) {
+      <ul class="list-unstyled">
+        @for (feature of program().features; track feature) {
+          <li class="mb-1">
+            <img class="navbar-toggler-icon me-2" src="assets/images/verifier.png" alt="✓">
+            {{ feature }}
+          </li>
+        }
+      </ul>
+    }
+    
+    <button 
+      type="button" 
+      [class]="'btn w-100 ' + (program().buttonClass || 'btn-primary')"
+      (click)="onCardClick()">
+      @if (program().buttonIcon) {
+        <i [class]="program().buttonIcon + ' me-2'"></i>
+      }
+      {{ program().buttonText || 'Découvrir' }}
+    </button>
+  </div>
+</div>
