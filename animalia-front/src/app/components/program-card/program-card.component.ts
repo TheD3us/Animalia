@@ -7,6 +7,7 @@ export interface ProgramCard {
   description: string;
   image?: string;
   price?: string;
+  difficulty: string;
   features?: string[];
   buttonText?: string;
   buttonClass?: string;

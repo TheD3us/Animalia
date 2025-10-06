@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environement/environment';
-import { training } from '../interfaces/training';
+import { Training } from '../interfaces/training';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class TrainingService {
     return this.http.get(environment.apiUrl + "training/" + id);
   }
 
-  post(data: training){
+  post(data: Training){
     const body = JSON.stringify(data);
 
     this.http.post(environment.apiUrl + "training", body, {
@@ -40,7 +40,7 @@ export class TrainingService {
       });
   }
 
-  put(data: training){
+  put(data: Training){
     const body = JSON.stringify(data);
     this.http.put(environment.apiUrl + "training", body, {
       headers: new HttpHeaders({

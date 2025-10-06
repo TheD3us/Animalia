@@ -29,7 +29,7 @@
     <i class="fa-solid fa-person-running text-primary"></i>
   </h2>
   <div class="row g-4">
-    @for (program of programs; track program.id) {
+    @for (program of ListProgramCard; track program.id) {
       <div class="col-md-4">
         <app-program-card 
           [program]="program"
