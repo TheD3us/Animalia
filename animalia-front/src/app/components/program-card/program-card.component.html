@@ -44,5 +44,17 @@
       }
       {{ program().buttonText || 'Découvrir' }}
     </button>
+    
+    <!-- Bouton Ajouter au panier pour les entraînements individuels -->
+    @if (program().type === 'workout') {
+      <button 
+        type="button" 
+        class="btn btn-outline-warning w-100 mt-2"
+        (click)="onAddToCart()"
+        title="Ajouter cet entraînement au panier">
+        <i class="fa-solid fa-cart-plus me-2"></i>
+        Ajouter au panier
+      </button>
+    }
   </div>
 </div>

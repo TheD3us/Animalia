@@ -12,7 +12,6 @@ import { ProgramCardComponent, ProgramCard } from '../../components/program-card
 export class SportsProgramComponent {
   private readonly fb = new FormBuilder();
   
-  // Offres packs
   protected readonly packs: ProgramCard[] = [
     {
       id: 'pack-debutant',
@@ -21,7 +20,8 @@ export class SportsProgramComponent {
       price: '29,99 €',
       buttonText: 'Choisir',
       buttonClass: 'btn-primary',
-      buttonIcon: 'bi bi-star-fill text-warning'
+      buttonIcon: 'bi bi-star-fill text-warning',
+      type: 'pack'
     },
     {
       id: 'pack-intermediaire', 
@@ -30,7 +30,8 @@ export class SportsProgramComponent {
       price: '49,99 €',
       buttonText: 'Choisir',
       buttonClass: 'btn-success',
-      buttonIcon: 'bi bi-lightning-charge-fill text-success'
+      buttonIcon: 'bi bi-lightning-charge-fill text-success',
+      type: 'pack'
     },
     {
       id: 'pack-premium',
@@ -39,11 +40,11 @@ export class SportsProgramComponent {
       price: '79,99 €',
       buttonText: 'Choisir',
       buttonClass: 'btn-danger',
-      buttonIcon: 'bi bi-trophy-fill text-danger'
+      buttonIcon: 'bi bi-trophy-fill text-danger',
+      type: 'pack'
     }
   ];
 
-  // Entraînements disponibles
   protected readonly workouts: ProgramCard[] = [
     {
       id: 'squats-pattes',
@@ -51,7 +52,8 @@ export class SportsProgramComponent {
       description: 'Renforcez vos jambes tout en amusant votre chien : chaque squat est l\'occasion d\'une caresse ou d\'une friandise.',
       image: 'assets/images/squat-avec-son-chien.jpg',
       buttonText: 'Essayer',
-      buttonClass: 'btn-outline-primary'
+      buttonClass: 'btn-outline-primary',
+      type: 'workout'
     },
     {
       id: 'parcours-zigzag',
@@ -59,14 +61,16 @@ export class SportsProgramComponent {
       description: 'Créez un petit parcours d\'obstacles et alternez course et slalom avec votre compagnon pour travailler cardio et agilité.',
       image: 'assets/images/Parcours_et_Zigzag.jpg',
       buttonText: 'Essayer',
-      buttonClass: 'btn-outline-primary'
+      buttonClass: 'btn-outline-primary',
+      type: 'workout'
     },
     {
       id: 'fentes-rotation',
       title: 'Fentes & Rotation',
       description: 'Effectuez des fentes avant tout en faisant tourner un jouet autour de vous pour stimuler votre équilibre et l\'attention du chien.',
       buttonText: 'Essayer',
-      buttonClass: 'btn-outline-primary'
+      buttonClass: 'btn-outline-primary',
+      type: 'workout'
     },
     {
       id: 'tir-corde',
@@ -74,7 +78,8 @@ export class SportsProgramComponent {
       description: 'Un classique ludique : musclez vos bras et amusez votre chien avec une corde solide, en alternant traction et relâchement.',
       image: 'assets/images/Le_tir_a_la_corde.jpg',
       buttonText: 'Essayer',
-      buttonClass: 'btn-outline-primary'
+      buttonClass: 'btn-outline-primary',
+      type: 'workout'
     },
     {
       id: 'combo-fente',
@@ -82,35 +87,40 @@ export class SportsProgramComponent {
       description: 'Associez fentes et maintien en équilibre pendant que votre chien vous tourne autour ou saute par-dessus votre jambe.',
       image: 'assets/images/sport-a-la-maison.jpg',
       buttonText: 'Essayer',
-      buttonClass: 'btn-outline-primary'
+      buttonClass: 'btn-outline-primary',
+      type: 'workout'
     },
     {
       id: 'burpee-balle',
       title: 'Burpee & Rattrapage de balle',
       description: 'Faites un burpee, lancez la balle, puis repartez pour un nouveau tour pendant que votre chien la rapporte.',
       buttonText: 'Essayer',
-      buttonClass: 'btn-outline-primary'
+      buttonClass: 'btn-outline-primary',
+      type: 'workout'
     },
     {
       id: 'saut-obstacles',
       title: 'Saut d\'obstacles fait-maison',
       description: 'Disposez des chaises, balais ou coussins et sautez avec votre chien pour travailler coordination et explosivité.',
       buttonText: 'Essayer',
-      buttonClass: 'btn-outline-primary'
+      buttonClass: 'btn-outline-primary',
+      type: 'workout'
     },
     {
       id: 'russian-twist',
       title: 'Russian Twist & Jouet',
       description: 'En position assise, effectuez des rotations du buste en tenant un jouet que votre chien essaiera d\'attraper.',
       buttonText: 'Essayer',
-      buttonClass: 'btn-outline-primary'
+      buttonClass: 'btn-outline-primary',
+      type: 'workout'
     },
     {
       id: 'planche-jouet',
       title: 'Planche haute & Jouet',
       description: 'Tenez la position de planche pendant que votre chien tente de récupérer un jouet placé devant vous.',
       buttonText: 'Essayer',
-      buttonClass: 'btn-outline-primary'
+      buttonClass: 'btn-outline-primary',
+      type: 'workout'
     },
     {
       id: 'yoga-chien',
@@ -118,11 +128,11 @@ export class SportsProgramComponent {
       description: 'Pratiquez des postures douces de yoga en intégrant votre chien pour un moment de détente et de complicité.',
       image: 'assets/images/yoga-avec-son-chien-1.jpg',
       buttonText: 'Essayer',
-      buttonClass: 'btn-outline-primary'
+      buttonClass: 'btn-outline-primary',
+      type: 'workout'
     }
   ];
 
-  // Formulaires réactifs Angular 20
   protected readonly proposalForm = this.fb.group({
     titre: ['', [Validators.required, Validators.minLength(3)]],
     description: ['', [Validators.required, Validators.minLength(10)]]
@@ -134,7 +144,6 @@ export class SportsProgramComponent {
     lieuEvent: ['', [Validators.required, Validators.minLength(3)]]
   });
 
-  // Signals pour les états de chargement
   protected readonly isSubmittingProposal = signal(false);
   protected readonly isSubmittingEvent = signal(false);
 
@@ -144,7 +153,6 @@ export class SportsProgramComponent {
       const data = this.proposalForm.value;
       console.log('Nouvelle proposition d\'entraînement:', data);
       
-      // Simulation d'envoi
       setTimeout(() => {
         this.isSubmittingProposal.set(false);
         this.proposalForm.reset();
@@ -158,7 +166,6 @@ export class SportsProgramComponent {
       const data = this.eventForm.value;
       console.log('Nouvel événement sportif:', data);
       
-      // Simulation d'envoi
       setTimeout(() => {
         this.isSubmittingEvent.set(false);
         this.eventForm.reset();
@@ -166,9 +173,12 @@ export class SportsProgramComponent {
     }
   }
 
-  // Gestionnaire pour les clics sur les cartes de programmes
   onProgramCardClick(programId: string) {
     console.log('Programme sélectionné:', programId);
-    // Logique de navigation ou d'action
+    if (this.workouts.find(w => w.id === programId)) {
+      window.location.href = `/workout/${programId}`;
+    } else {
+      console.log('Pack sélectionné:', programId);
+    }
   }
 }

@@ -18,6 +18,18 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/sports-program/sports-program.component').then(m => m.SportsProgramComponent) 
   },
   { 
+    path: 'cart', 
+    loadComponent: () => import('./pages/cart/cart.component').then(m => m.CartComponent) 
+  },
+  { 
+    path: 'my-purchases', 
+    loadComponent: () => import('./pages/my-purchases/my-purchases.component').then(m => m.MyPurchasesComponent) 
+  },
+  { 
+    path: 'workout/:id', 
+    loadComponent: () => import('./pages/workout-detail/workout-detail.component').then(m => m.WorkoutDetailComponent) 
+  },
+  { 
     path: '**', 
     redirectTo: '' 
   }
