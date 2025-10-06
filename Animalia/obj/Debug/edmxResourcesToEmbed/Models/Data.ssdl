@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AnimaliaDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Events">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="DateTime" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="Location" Type="nvarchar" MaxLength="200" />
+    <Property Name="Notes" Type="nvarchar(max)" />
+    <Property Name="MaxParticipants" Type="int" />
+  </EntityType>
+  <EntityType Name="ProgramModels">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Summary" Type="nvarchar(max)" />
+    <Property Name="Difficulty" Type="nvarchar" MaxLength="50" />
+    <Property Name="Price" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="ImageUrl" Type="nvarchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="ProgramTrainings">
+    <Key>
+      <PropertyRef Name="ProgramModelId" />
+      <PropertyRef Name="TrainingId" />
+    </Key>
+    <Property Name="ProgramModelId" Type="int" Nullable="false" />
+    <Property Name="TrainingId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Testimonials">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AuthorName" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Rating" Type="int" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime2" Precision="7" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Trainings">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="DurationMinutes" Type="int" />
+    <Property Name="Equipment" Type="nvarchar" MaxLength="100" />
+    <Property Name="Level" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="Prenom" Type="nvarchar" MaxLength="100" />
+    <Property Name="Nom" Type="nvarchar" MaxLength="100" />
+    <Property Name="IsAdmin" Type="bit" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Events_User">
+    <End Role="Users" Type="Self.Users" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Events" Type="Self.Events" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Events">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PT_Program">
+    <End Role="ProgramModels" Type="Self.ProgramModels" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ProgramTrainings" Type="Self.ProgramTrainings" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProgramModels">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProgramTrainings">
+        <PropertyRef Name="ProgramModelId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PT_Training">
+    <End Role="Trainings" Type="Self.Trainings" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ProgramTrainings" Type="Self.ProgramTrainings" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Trainings">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProgramTrainings">
+        <PropertyRef Name="TrainingId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="AnimaliaDbModelStoreContainer">
+    <EntitySet Name="Events" EntityType="Self.Events" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProgramModels" EntityType="Self.ProgramModels" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProgramTrainings" EntityType="Self.ProgramTrainings" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Testimonials" EntityType="Self.Testimonials" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Trainings" EntityType="Self.Trainings" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Events_User" Association="Self.FK_Events_User">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Events" EntitySet="Events" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PT_Program" Association="Self.FK_PT_Program">
+      <End Role="ProgramModels" EntitySet="ProgramModels" />
+      <End Role="ProgramTrainings" EntitySet="ProgramTrainings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PT_Training" Association="Self.FK_PT_Training">
+      <End Role="Trainings" EntitySet="Trainings" />
+      <End Role="ProgramTrainings" EntitySet="ProgramTrainings" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
