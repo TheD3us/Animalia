@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { testimonial } from '../interfaces/testimonial';
+import { Testimonial } from '../interfaces/testimonial';
 import { environment } from '../../environement/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,15 +10,15 @@ import { environment } from '../../environement/environment';
 export class TestimonialService {
   constructor(private http: HttpClient){}
   
-  getListe(){
-    return this.http.get(environment.apiUrl + "testimonial");
+  getListe() : Observable<Testimonial[]>{
+    return this.http.get<Testimonial[]>(environment.apiUrl + "testimonial");
   }
 
   get(id: number){
     return this.http.get(environment.apiUrl + "testimonial/" + id);
   }
 
-  post(data: testimonial){
+  post(data: Testimonial){
     const body = JSON.stringify(data);
 
     this.http.post(environment.apiUrl + "testimonial", body, {
@@ -40,7 +41,7 @@ export class TestimonialService {
       });
   }
 
-  put(data: testimonial){
+  put(data: Testimonial){
     const body = JSON.stringify(data);
     this.http.put(environment.apiUrl + "testimonial", body, {
       headers: new HttpHeaders({
