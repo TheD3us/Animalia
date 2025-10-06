@@ -1,16 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environement/environment';
-
-export interface Event {
-  Id: number;
-  UserId: number;
-  Title: string;
-  DateTime: string;
-  Location: string;
-  Notes: string;
-  MaxParticipants?: number;
-}
+import { Event } from '../interfaces/events';
 
 @Injectable({
   providedIn: 'root'

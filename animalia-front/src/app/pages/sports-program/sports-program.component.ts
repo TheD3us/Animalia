@@ -1,9 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ProgramCardComponent, ProgramCard } from '../../components/program-card/program-card.component';
-import { Event, EventService } from '../../services/event.service';
+import { Event } from '../../interfaces/events';
+import { EventService } from '../../services/event.service';
 import { ProgramModelService } from '../../services/program-model';
 import { DatePipe, NgIf, NgFor, NgForOf } from '@angular/common';
+
 
 @Component({
   selector: 'app-sports-program',
@@ -174,44 +176,18 @@ export class SportsProgramComponent {
   protected readonly isSubmittingProposal = signal(false);
   protected readonly isSubmittingEvent = signal(false);
 
-  //onSubmitProposal() {
-  //  if (this.proposalForm.valid) {
-  //    this.isSubmittingProposal.set(true);
-  //    const data = this.proposalForm.value;
-  //    console.log('Nouvelle proposition d\'entraînement:', data);
-      
-  //    setTimeout(() => {
-  //      this.isSubmittingProposal.set(false);
-  //      this.proposalForm.reset();
-  //    }, 2000);
-  //  }
-  //}
-
-  //onSubmitEvent() {
-  //  if (this.eventForm.valid) {
-  //    this.isSubmittingEvent.set(true);
-  //    const data = this.eventForm.value;
-  //    console.log('Nouvel événement sportif:', data);
-      
-  //    setTimeout(() => {
-  //      this.isSubmittingEvent.set(false);
-  //      this.eventForm.reset();
-  //    }, 2000);
-  //  }
-  //}
-
   onSubmitProposal() {
     if (this.proposalForm.valid) {
       this.isSubmittingProposal.set(true);
       const data = this.proposalForm.value;
 
       this.programService.post({
-        id: 0,
-        title: data.titre!,
-        summary: data.description!,
-        difficulty: 'Facile',
-        price: 0,
-        imageUrl: ''
+        Id: 0,
+        Title: data.titre!,
+        Summary: data.description!,
+        Difficulty: 'Facile',
+        Price: 0,
+        ImageUrl: ''
       });
 
       // Le .subscribe() est dans le service.
