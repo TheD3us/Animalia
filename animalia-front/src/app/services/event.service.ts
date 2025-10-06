@@ -3,13 +3,13 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environement/environment';
 
 export interface Event {
-  id: number;
-  userId: number;
-  title: string;
-  date: string;
-  location: string;
-  notes: string;
-  maxParticipants?: number;
+  Id: number;
+  UserId: number;
+  Title: string;
+  DateTime: string;
+  Location: string;
+  Notes: string;
+  MaxParticipants?: number;
 }
 
 @Injectable({
@@ -28,15 +28,11 @@ export class EventService {
 
   post(data: Event) {
     const body = JSON.stringify(data);
-
     this.http.post(environment.apiUrl + "event", body, {
-      headers: new HttpHeaders({
-        "Content-Type": "application/json"
-      })
-    }).subscribe(response => {
-      console.log("crud service post event OK");
-    });
+      headers: new HttpHeaders({ "Content-Type": "application/json" })
+    }).subscribe(() => console.log("crud service post event OK - Événement créé"));
   }
+
 
   delete(id: number) {
     this.http.delete(environment.apiUrl + "event/" + id).subscribe(response => {
@@ -55,4 +51,6 @@ export class EventService {
       console.log("crud service put event OK");
     });
   }
+
+
 }

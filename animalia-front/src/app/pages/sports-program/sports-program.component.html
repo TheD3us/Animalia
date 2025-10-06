@@ -1,4 +1,3 @@
-
 <!-- ====== SECTION OFFRES ====== -->
 <section class="container my-5">
   <h2 class="mb-4 text-center">
@@ -7,13 +6,12 @@
   </h2>
   <div class="row g-4">
     @for (pack of packs; track pack.id) {
-      <div class="col-md-4">
-        <app-program-card 
-          [program]="pack" 
-          [showFeatures]="false"
-          (cardClick)="onProgramCardClick($event)">
-        </app-program-card>
-      </div>
+    <div class="col-md-4">
+      <app-program-card [program]="pack"
+                        [showFeatures]="false"
+                        (cardClick)="onProgramCardClick($event)">
+      </app-program-card>
+    </div>
     }
   </div>
 </section>
@@ -23,16 +21,46 @@
   <h2 class="mb-4 text-center">Liste des Entraînements</h2>
   <div class="row row-cols-1 row-cols-md-3 g-4">
     @for (workout of workouts; track workout.id) {
-      <div class="col">
-        <app-program-card 
-          [program]="workout"
-          [showFeatures]="false"
-          (cardClick)="onProgramCardClick($event)">
-        </app-program-card>
-      </div>
+    <div class="col">
+      <app-program-card [program]="workout"
+                        [showFeatures]="false"
+                        (cardClick)="onProgramCardClick($event)">
+      </app-program-card>
+    </div>
     }
   </div>
 </section>
+
+<!-- ====== LISTE DES ÉVÉNEMENTS ====== -->
+<section class="container my-5">
+  <h2 class="mb-4 text-center">
+    <i class="fa-solid fa-calendar-days me-2 text-primary"></i>
+    Événements à venir
+  </h2>
+
+  <div *ngIf="events.length === 0" class="text-center text-muted">
+    Aucun événement disponible pour le moment.
+  </div>
+
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    <div class="col" *ngFor="let evt of events">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="card-title">{{ evt.Title }}</h5>
+          <p class="card-text">
+            <strong>Date :</strong> {{ evt.DateTime | date:'shortDate' }}<br>
+            <strong>Lieu :</strong> {{ evt.Location }}<br>
+            <small class="text-muted">{{ evt.Notes }}</small>
+          </p>
+        </div>
+        <div class="card-footer text-end">
+          <span class="badge bg-info">Participants max : {{ evt.MaxParticipants || 'N/A' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 
 <!-- ====== PROPOSITION D'ENTRAÎNEMENT ====== -->
 <section class="container my-5">
@@ -44,43 +72,40 @@
           <form [formGroup]="proposalForm" (ngSubmit)="onSubmitProposal()">
             <div class="mb-3">
               <label for="titre" class="form-label">Titre</label>
-              <input 
-                type="text" 
-                class="form-control" 
-                id="titre" 
-                formControlName="titre"
-                [class.is-invalid]="proposalForm.get('titre')?.invalid && proposalForm.get('titre')?.touched"
-                placeholder="Nom de l'entraînement">
+              <input type="text"
+                     class="form-control"
+                     id="titre"
+                     formControlName="titre"
+                     [class.is-invalid]="proposalForm.get('titre')?.invalid && proposalForm.get('titre')?.touched"
+                     placeholder="Nom de l'entraînement">
               @if (proposalForm.get('titre')?.invalid && proposalForm.get('titre')?.touched) {
-                <div class="invalid-feedback">
-                  Le titre est requis (min. 3 caractères)
-                </div>
+              <div class="invalid-feedback">
+                Le titre est requis (min. 3 caractères)
+              </div>
               }
             </div>
             <div class="mb-3">
               <label for="description" class="form-label">Description</label>
-              <textarea 
-                class="form-control" 
-                id="description" 
-                rows="3"
-                formControlName="description"
-                [class.is-invalid]="proposalForm.get('description')?.invalid && proposalForm.get('description')?.touched"
-                placeholder="Décrivez votre idée d'entraînement..."></textarea>
+              <textarea class="form-control"
+                        id="description"
+                        rows="3"
+                        formControlName="description"
+                        [class.is-invalid]="proposalForm.get('description')?.invalid && proposalForm.get('description')?.touched"
+                        placeholder="Décrivez votre idée d'entraînement..."></textarea>
               @if (proposalForm.get('description')?.invalid && proposalForm.get('description')?.touched) {
-                <div class="invalid-feedback">
-                  La description est requise (min. 10 caractères)
-                </div>
+              <div class="invalid-feedback">
+                La description est requise (min. 10 caractères)
+              </div>
               }
             </div>
             <div class="text-center">
-              <button 
-                type="submit" 
-                class="btn btn-success"
-                [disabled]="proposalForm.invalid || isSubmittingProposal()">
+              <button type="submit"
+                      class="btn btn-success"
+                      [disabled]="proposalForm.invalid || isSubmittingProposal()">
                 @if (isSubmittingProposal()) {
-                  <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                <span class="spinner-border spinner-border-sm me-2" role="status"></span>
                 } @else {
-                  <i class="fa-solid fa-paper-plane me-2"></i>
+                <i class="fa-solid fa-paper-plane me-2"></i>
                 }
                 {{ isSubmittingProposal() ? 'Envoi...' : 'Envoyer' }}
               </button>
@@ -102,57 +127,53 @@
           <form [formGroup]="eventForm" (ngSubmit)="onSubmitEvent()">
             <div class="mb-3">
               <label for="nomEvent" class="form-label">Nom de l'événement</label>
-              <input 
-                type="text" 
-                class="form-control" 
-                id="nomEvent"
-                formControlName="nomEvent"
-                [class.is-invalid]="eventForm.get('nomEvent')?.invalid && eventForm.get('nomEvent')?.touched"
-                placeholder="Ex: Canicross du dimanche">
+              <input type="text"
+                     class="form-control"
+                     id="nomEvent"
+                     formControlName="nomEvent"
+                     [class.is-invalid]="eventForm.get('nomEvent')?.invalid && eventForm.get('nomEvent')?.touched"
+                     placeholder="Ex: Canicross du dimanche">
               @if (eventForm.get('nomEvent')?.invalid && eventForm.get('nomEvent')?.touched) {
-                <div class="invalid-feedback">
-                  Le nom de l'événement est requis (min. 3 caractères)
-                </div>
+              <div class="invalid-feedback">
+                Le nom de l'événement est requis (min. 3 caractères)
+              </div>
               }
             </div>
             <div class="mb-3">
               <label for="dateEvent" class="form-label">Date</label>
-              <input 
-                type="date" 
-                class="form-control" 
-                id="dateEvent"
-                formControlName="dateEvent"
-                [class.is-invalid]="eventForm.get('dateEvent')?.invalid && eventForm.get('dateEvent')?.touched">
+              <input type="date"
+                     class="form-control"
+                     id="dateEvent"
+                     formControlName="dateEvent"
+                     [class.is-invalid]="eventForm.get('dateEvent')?.invalid && eventForm.get('dateEvent')?.touched">
               @if (eventForm.get('dateEvent')?.invalid && eventForm.get('dateEvent')?.touched) {
-                <div class="invalid-feedback">
-                  La date est requise
-                </div>
+              <div class="invalid-feedback">
+                La date est requise
+              </div>
               }
             </div>
             <div class="mb-3">
               <label for="lieuEvent" class="form-label">Lieu</label>
-              <input 
-                type="text" 
-                class="form-control" 
-                id="lieuEvent"
-                formControlName="lieuEvent"
-                [class.is-invalid]="eventForm.get('lieuEvent')?.invalid && eventForm.get('lieuEvent')?.touched"
-                placeholder="Ex: Parc de la ville">
+              <input type="text"
+                     class="form-control"
+                     id="lieuEvent"
+                     formControlName="lieuEvent"
+                     [class.is-invalid]="eventForm.get('lieuEvent')?.invalid && eventForm.get('lieuEvent')?.touched"
+                     placeholder="Ex: Parc de la ville">
               @if (eventForm.get('lieuEvent')?.invalid && eventForm.get('lieuEvent')?.touched) {
-                <div class="invalid-feedback">
-                  Le lieu est requis (min. 3 caractères)
-                </div>
+              <div class="invalid-feedback">
+                Le lieu est requis (min. 3 caractères)
+              </div>
               }
             </div>
             <div class="text-center">
-              <button 
-                type="submit" 
-                class="btn btn-primary"
-                [disabled]="eventForm.invalid || isSubmittingEvent()">
+              <button type="submit"
+                      class="btn btn-primary"
+                      [disabled]="eventForm.invalid || isSubmittingEvent()">
                 @if (isSubmittingEvent()) {
-                  <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                <span class="spinner-border spinner-border-sm me-2" role="status"></span>
                 } @else {
-                  <i class="fa-solid fa-calendar-plus me-2"></i>
+                <i class="fa-solid fa-calendar-plus me-2"></i>
                 }
                 {{ isSubmittingEvent() ? 'Création...' : 'Créer' }}
               </button>
