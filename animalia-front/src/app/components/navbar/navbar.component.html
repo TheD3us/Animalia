@@ -26,9 +26,27 @@
             Offres <i class="fa-solid fa-paw"></i>
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isLoggedIn">
+          <a class="nav-link" routerLink="/my-purchases" routerLinkActive="active">
+            Mes Entraînements <i class="fa-solid fa-dumbbell"></i>
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="!isLoggedIn">
           <a class="nav-link" routerLink="/login" routerLinkActive="active">
             Connexion <i class="fa-solid fa-paw"></i>
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="isLoggedIn">
+          <button class="nav-link btn btn-link" (click)="logout()">
+            Déconnexion <i class="fa-solid fa-sign-out-alt"></i>
+          </button>
+        </li>
+        <li class="nav-item position-relative">
+          <a class="nav-link" routerLink="/cart" routerLinkActive="active">
+            <i class="fa-solid fa-shopping-cart"></i>
+            <span *ngIf="cartCount > 0" class="badge bg-danger position-absolute top-0 start-100 translate-middle rounded-pill">
+              {{ cartCount }}
+            </span>
           </a>
         </li>
       </ul>
