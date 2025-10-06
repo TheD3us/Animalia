@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { testimonial } from '../Model/testimonial';
+import { testimonial } from '../interfaces/testimonial';
 import { environment } from '../../environement/environment';
 
 @Injectable({
