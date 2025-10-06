@@ -37,6 +37,7 @@ namespace Animalia.Controllers
             new UserDao().Delete(id);
         }
 
+        [Route("api/user/verif")]
         public bool VerifLoginMdp(string login, string Mdp)
         {
             return new UserDao().VerifLoginMdp(login, Mdp);
