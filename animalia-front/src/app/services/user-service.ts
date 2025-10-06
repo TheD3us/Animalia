@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environement/environment';
 import { user } from '../Model/user';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -51,5 +52,9 @@ export class UserService {
         console.log("crud service put user OK");
 
       });
+  }
+
+  verifLogin(login: string, mdp: string): Observable<boolean>{
+    return this.http.get<boolean>(`${environment.apiUrl}/user/verif`, {params:{login, mdp}});
   }
 }
