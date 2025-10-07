@@ -1,17 +1,46 @@
 import { Component, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ProgramCardComponent, ProgramCard } from '../../components/program-card/program-card.component';
+import { Event } from '../../interfaces/events';
+import { EventService } from '../../services/event.service';
+import { ProgramModelService } from '../../services/program-model';
+import { DatePipe, NgIf, NgFor, NgForOf } from '@angular/common';
+
 
 @Component({
   selector: 'app-sports-program',
   standalone: true,
-  imports: [ReactiveFormsModule, ProgramCardComponent],
+  imports: [ReactiveFormsModule, ProgramCardComponent, DatePipe, NgIf, NgFor, NgForOf],
   templateUrl: './sports-program.component.html',
   styleUrl: './sports-program.component.scss'
 })
 export class SportsProgramComponent {
   private readonly fb = new FormBuilder();
-  
+
+  constructor(
+    private eventService: EventService,
+    private programService: ProgramModelService
+  ) { }
+
+  // Liste des événements récupérés en base
+  events: Event[] = [];
+
+  ngOnInit(): void {
+    this.loadEvents();
+  }
+
+  loadEvents() {
+    this.eventService.getListe().subscribe({
+      next: (data: any) => {
+        console.log(data);
+        this.events = data;
+      },
+      error: (err) => {
+        console.error("Erreur lors du chargement des événements", err);
+      }
+    });
+  }
+
   protected readonly packs: ProgramCard[] = [
     {
       id: 'pack-debutant',
@@ -164,12 +193,21 @@ export class SportsProgramComponent {
     if (this.proposalForm.valid) {
       this.isSubmittingProposal.set(true);
       const data = this.proposalForm.value;
-      console.log('Nouvelle proposition d\'entraînement:', data);
-      
+
+      this.programService.post({
+        Id: 0,
+        Title: data.titre!,
+        Summary: data.description!,
+        Difficulty: 'Facile',
+        Price: 0,
+        ImageUrl: ''
+      });
+
+      // Le .subscribe() est dans le service.
       setTimeout(() => {
         this.isSubmittingProposal.set(false);
         this.proposalForm.reset();
-      }, 2000);
+      }, 1000);
     }
   }
 
@@ -177,14 +215,25 @@ export class SportsProgramComponent {
     if (this.eventForm.valid) {
       this.isSubmittingEvent.set(true);
       const data = this.eventForm.value;
-      console.log('Nouvel événement sportif:', data);
-      
+
+      this.eventService.post({
+        Id: 0,
+        UserId: 1, // à remplacer par l’ID de l’utilisateur connecté
+        Title: data.nomEvent!,
+        DateTime: data.dateEvent!,
+        Location: data.lieuEvent!,
+        Notes: '',
+        MaxParticipants: 20
+      });
+
+      // Le .subscribe() est dans le service.
       setTimeout(() => {
         this.isSubmittingEvent.set(false);
         this.eventForm.reset();
-      }, 2000);
+      }, 1000);
     }
   }
+
 
   onProgramCardClick(programId: string) {
     console.log('Programme sélectionné:', programId);
