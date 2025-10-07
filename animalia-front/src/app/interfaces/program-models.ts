@@ -1,8 +1,8 @@
-export interface programModel{
-    id: number;
-    title: string;
-    summary: string;
-    difficulty: string;
-    price: number;
-    imageUrl: string;
+export interface ProgramModel {
+  Id: number;
+  Title: string;
+  Summary: string;
+  Difficulty: string;
+  Price: number;
+  ImageUrl: string;
 }

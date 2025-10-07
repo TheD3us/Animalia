@@ -1,4 +1,4 @@
-export interface training{
+export interface Training{
     id: number;
     title: string;
     durationMinutes: number;

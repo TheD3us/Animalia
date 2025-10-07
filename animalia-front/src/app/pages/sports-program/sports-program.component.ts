@@ -47,6 +47,7 @@ export class SportsProgramComponent {
       title: 'Pack Débutant',
       description: 'Accès à 10 séances d\'entraînement + suivi personnalisé par un coach certifié.',
       price: '29,99 €',
+      difficulty: 'easy',
       buttonText: 'Choisir',
       buttonClass: 'btn-primary',
       buttonIcon: 'bi bi-star-fill text-warning',
@@ -57,6 +58,7 @@ export class SportsProgramComponent {
       title: 'Pack Intermédiaire',
       description: '20 séances + accès illimité à la bibliothèque vidéo + conseils nutritionnels.',
       price: '49,99 €',
+      difficulty: 'easy',
       buttonText: 'Choisir',
       buttonClass: 'btn-success',
       buttonIcon: 'bi bi-lightning-charge-fill text-success',
@@ -67,6 +69,7 @@ export class SportsProgramComponent {
       title: 'Pack Premium', 
       description: 'Accès illimité à toutes les séances + coaching vidéo en direct + suivi santé complet.',
       price: '79,99 €',
+      difficulty: 'easy',
       buttonText: 'Choisir',
       buttonClass: 'btn-danger',
       buttonIcon: 'bi bi-trophy-fill text-danger',
@@ -80,6 +83,7 @@ export class SportsProgramComponent {
       title: 'Squats & Pattes',
       description: 'Renforcez vos jambes tout en amusant votre chien : chaque squat est l\'occasion d\'une caresse ou d\'une friandise.',
       image: 'assets/images/squat-avec-son-chien.jpg',
+      difficulty: 'easy',
       buttonText: 'Essayer',
       buttonClass: 'btn-outline-primary',
       type: 'workout'
@@ -89,6 +93,7 @@ export class SportsProgramComponent {
       title: 'Parcours & Zigzag',
       description: 'Créez un petit parcours d\'obstacles et alternez course et slalom avec votre compagnon pour travailler cardio et agilité.',
       image: 'assets/images/Parcours_et_Zigzag.jpg',
+      difficulty: 'easy',
       buttonText: 'Essayer',
       buttonClass: 'btn-outline-primary',
       type: 'workout'
@@ -98,6 +103,7 @@ export class SportsProgramComponent {
       title: 'Fentes & Rotation',
       description: 'Effectuez des fentes avant tout en faisant tourner un jouet autour de vous pour stimuler votre équilibre et l\'attention du chien.',
       buttonText: 'Essayer',
+      difficulty: 'easy',
       buttonClass: 'btn-outline-primary',
       type: 'workout'
     },
@@ -107,6 +113,7 @@ export class SportsProgramComponent {
       description: 'Un classique ludique : musclez vos bras et amusez votre chien avec une corde solide, en alternant traction et relâchement.',
       image: 'assets/images/Le_tir_a_la_corde.jpg',
       buttonText: 'Essayer',
+      difficulty: 'easy',
       buttonClass: 'btn-outline-primary',
       type: 'workout'
     },
@@ -116,6 +123,7 @@ export class SportsProgramComponent {
       description: 'Associez fentes et maintien en équilibre pendant que votre chien vous tourne autour ou saute par-dessus votre jambe.',
       image: 'assets/images/sport-a-la-maison.jpg',
       buttonText: 'Essayer',
+      difficulty: 'easy',
       buttonClass: 'btn-outline-primary',
       type: 'workout'
     },
@@ -124,6 +132,7 @@ export class SportsProgramComponent {
       title: 'Burpee & Rattrapage de balle',
       description: 'Faites un burpee, lancez la balle, puis repartez pour un nouveau tour pendant que votre chien la rapporte.',
       buttonText: 'Essayer',
+      difficulty: 'easy',
       buttonClass: 'btn-outline-primary',
       type: 'workout'
     },
@@ -132,6 +141,7 @@ export class SportsProgramComponent {
       title: 'Saut d\'obstacles fait-maison',
       description: 'Disposez des chaises, balais ou coussins et sautez avec votre chien pour travailler coordination et explosivité.',
       buttonText: 'Essayer',
+      difficulty: 'easy',
       buttonClass: 'btn-outline-primary',
       type: 'workout'
     },
@@ -140,6 +150,7 @@ export class SportsProgramComponent {
       title: 'Russian Twist & Jouet',
       description: 'En position assise, effectuez des rotations du buste en tenant un jouet que votre chien essaiera d\'attraper.',
       buttonText: 'Essayer',
+      difficulty: 'easy',
       buttonClass: 'btn-outline-primary',
       type: 'workout'
     },
@@ -148,6 +159,7 @@ export class SportsProgramComponent {
       title: 'Planche haute & Jouet',
       description: 'Tenez la position de planche pendant que votre chien tente de récupérer un jouet placé devant vous.',
       buttonText: 'Essayer',
+      difficulty: 'easy',
       buttonClass: 'btn-outline-primary',
       type: 'workout'
     },
@@ -157,6 +169,7 @@ export class SportsProgramComponent {
       description: 'Pratiquez des postures douces de yoga en intégrant votre chien pour un moment de détente et de complicité.',
       image: 'assets/images/yoga-avec-son-chien-1.jpg',
       buttonText: 'Essayer',
+      difficulty: 'easy',
       buttonClass: 'btn-outline-primary',
       type: 'workout'
     }
