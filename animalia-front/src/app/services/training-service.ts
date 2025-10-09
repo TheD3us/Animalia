@@ -53,4 +53,8 @@ export class TrainingService {
 
       });
   }
+
+  getByUser(id: number){
+    return this.http.get(environment.apiUrl + "training/getuser/" + id)
+  }
 }

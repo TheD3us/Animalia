@@ -13,6 +13,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class MyPurchasesComponent implements OnInit {
   purchasedWorkouts: PurchasedWorkout[] = [];
+ 
   isLoggedIn = false;
 
   constructor(
