@@ -70,6 +70,17 @@ CREATE TABLE Events (
         REFERENCES Users(Id) ON DELETE CASCADE
 );
 
+--- Table de liaison training users
+CREATE TABLE EventUser (
+    EventId INT NOT NULL,
+    UserId INT NOT NULL,
+    PRIMARY KEY (EventId, UserId),
+    CONSTRAINT FK_PT_Event FOREIGN KEY (EventId)
+        REFERENCES Events(Id),
+    CONSTRAINT FK_PT_User FOREIGN KEY (UserId)
+        REFERENCES Users(Id)
+);
+
 -- Table des Témoignages
 CREATE TABLE Testimonials (
     Id INT IDENTITY PRIMARY KEY,
