@@ -4,6 +4,8 @@ import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { PurchaseService } from '../../services/purchase.service';
 import { CartService } from '../../services/cart.service';
+import { Training } from '../../interfaces/training';
+import { TrainingService } from '../../services/training-service';
 
 interface WorkoutData {
   id: string;
@@ -25,84 +27,50 @@ export class WorkoutDetailComponent implements OnInit {
   workoutContent: any = {};
   isPurchased = false;
   workoutPrice = '';
-
-  // Base de données des entraînements (normalement viendrait d'un service)
-  private workoutsData: { [key: string]: WorkoutData } = {
-    'squats-pattes': {
-      id: 'squats-pattes',
-      title: 'Squats & Pattes',
-      description: 'Renforcez vos jambes tout en amusant votre chien : chaque squat est l\'occasion d\'une caresse ou d\'une friandise.',
-      type: 'workout'
-    },
-    'parcours-zigzag': {
-      id: 'parcours-zigzag',
-      title: 'Parcours & Zigzag',
-      description: 'Créez un petit parcours d\'obstacles et alternez course et slalom avec votre compagnon pour travailler cardio et agilité.',
-      type: 'workout'
-    },
-    'fentes-rotation': {
-      id: 'fentes-rotation',
-      title: 'Fentes & Rotation',
-      description: 'Effectuez des fentes avant tout en faisant tourner un jouet autour de vous pour stimuler votre équilibre et l\'attention du chien.',
-      type: 'workout'
-    },
-    'tir-corde': {
-      id: 'tir-corde',
-      title: 'Le tir à la corde',
-      description: 'Un classique ludique : musclez vos bras et amusez votre chien avec une corde solide, en alternant traction et relâchement.',
-      type: 'workout'
-    },
-    'combo-fente': {
-      id: 'combo-fente',
-      title: 'Combo Fente & Équilibre',
-      description: 'Associez fentes et maintien en équilibre pendant que votre chien vous tourne autour ou saute par-dessus votre jambe.',
-      type: 'workout'
-    },
-    'burpee-balle': {
-      id: 'burpee-balle',
-      title: 'Burpee & Rattrapage de balle',
-      description: 'Faites un burpee, lancez la balle, puis repartez pour un nouveau tour pendant que votre chien la rapporte.',
-      type: 'workout'
-    },
-    'saut-obstacles': {
-      id: 'saut-obstacles',
-      title: 'Saut d\'obstacles fait-maison',
-      description: 'Disposez des chaises, balais ou coussins et sautez avec votre chien pour travailler coordination et explosivité.',
-      type: 'workout'
-    },
-    'russian-twist': {
-      id: 'russian-twist',
-      title: 'Russian Twist & Jouet',
-      description: 'En position assise, effectuez des rotations du buste en tenant un jouet que votre chien essaiera d\'attraper.',
-      type: 'workout'
-    },
-    'planche-jouet': {
-      id: 'planche-jouet',
-      title: 'Planche haute & Jouet',
-      description: 'Tenez la position de planche pendant que votre chien tente de récupérer un jouet placé devant vous.',
-      type: 'workout'
-    },
-    'yoga-chien': {
-      id: 'yoga-chien',
-      title: 'Yoga avec son chien',
-      description: 'Pratiquez des postures douces de yoga en intégrant votre chien pour un moment de détente et de complicité.',
-      type: 'workout'
-    }
-  };
+  trains: Training[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
     private purchaseService: PurchaseService,
-    private cartService: CartService
+    private cartService: CartService,
+    private trainingService: TrainingService
   ) {}
+
+  // Base de données des entraînements (normalement viendrait d'un service)
+  private workoutsData: { [key: string]: WorkoutData } = {
+    
+  };
+
+  
 
   ngOnInit() {
     const workoutId = this.route.snapshot.paramMap.get('id');
     if (workoutId) {
       this.loadWorkout(workoutId);
     }
+
+    this.trainingService.getListe().subscribe({
+      next: (res : Training[]) => {
+          
+          this.FillWorkoutsData(res);
+          console.log(res);
+        },
+        error: (err) => console.error(err)
+    })
+  }
+
+  private FillWorkoutsData(res: Training[]){
+    res.forEach(item => {
+      const workout: WorkoutData = {
+      id : item.id.toString(),
+      title : item.title,
+      description : ''
+      
+    }
+    })
+    
   }
 
   private loadWorkout(workoutId: string) {
