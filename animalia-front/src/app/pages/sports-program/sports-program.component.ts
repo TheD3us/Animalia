@@ -5,6 +5,7 @@ import { Event } from '../../interfaces/events';
 import { EventService } from '../../services/event.service';
 import { ProgramModelService } from '../../services/program-model';
 import { DatePipe, NgIf, NgFor, NgForOf } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -20,16 +21,25 @@ export class SportsProgramComponent {
   constructor(
     private eventService: EventService,
     private programService: ProgramModelService,
+    private authService: AuthService
   ) { }
 
   // Liste des événements récupérés en base
   events: Event[] = [];
   programModels: any[] = [];
+  userId: number = -1;
 
   ngOnInit(): void {
     this.loadEvents();
     this.loadProgramModels();
-
+    this.authService.whoIsLoggedIn().subscribe(res => {
+      if(res != undefined)
+      {
+        this.userId = res;
+      }
+      
+      console.log("Id de l'user qui poste l'envent : ", res);
+    })
   }
   programCards: ProgramCard[] = [];
 
@@ -148,16 +158,17 @@ export class SportsProgramComponent {
     if (this.eventForm.valid) {
       this.isSubmittingEvent.set(true);
       const data = this.eventForm.value;
-
       this.eventService.post({
         Id: 0,
-        UserId: 1, // à remplacer par l’ID de l’utilisateur connecté
+        UserId: this.userId, 
         Title: data.nomEvent!,
         DateTime: data.dateEvent!,
         Location: data.lieuEvent!,
         Notes: '',
         MaxParticipants: 20
       });
+      
+      
 
       // Le .subscribe() est dans le service.
       setTimeout(() => {
