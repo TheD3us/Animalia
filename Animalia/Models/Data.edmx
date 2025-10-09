@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="AnimaliaDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="AnimaliaDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Events">
           <Key>
             <PropertyRef Name="Id" />
@@ -16,6 +16,14 @@
           <Property Name="Location" Type="nvarchar" MaxLength="200" />
           <Property Name="Notes" Type="nvarchar(max)" />
           <Property Name="MaxParticipants" Type="int" />
+        </EntityType>
+        <EntityType Name="EventUser">
+          <Key>
+            <PropertyRef Name="EventId" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="EventId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="ProgramModels">
           <Key>
@@ -52,9 +60,11 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1000" Nullable="false" />
           <Property Name="DurationMinutes" Type="int" />
           <Property Name="Equipment" Type="nvarchar" MaxLength="100" />
           <Property Name="Level" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -78,6 +88,18 @@
             </Principal>
             <Dependent Role="Events">
               <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PT_Event">
+          <End Role="Events" Type="Self.Events" Multiplicity="1" />
+          <End Role="EventUser" Type="Self.EventUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Events">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventUser">
+              <PropertyRef Name="EventId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -109,8 +131,35 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PT_User">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="EventUser" Type="Self.EventUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventUser">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Trainings_User">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Trainings" Type="Self.Trainings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Trainings">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="AnimaliaDbModelStoreContainer">
           <EntitySet Name="Events" EntityType="Self.Events" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventUser" EntityType="Self.EventUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProgramModels" EntityType="Self.ProgramModels" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProgramTrainings" EntityType="Self.ProgramTrainings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Testimonials" EntityType="Self.Testimonials" Schema="dbo" store:Type="Tables" />
@@ -120,6 +169,10 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Events" EntitySet="Events" />
           </AssociationSet>
+          <AssociationSet Name="FK_PT_Event" Association="Self.FK_PT_Event">
+            <End Role="Events" EntitySet="Events" />
+            <End Role="EventUser" EntitySet="EventUser" />
+          </AssociationSet>
           <AssociationSet Name="FK_PT_Program" Association="Self.FK_PT_Program">
             <End Role="ProgramModels" EntitySet="ProgramModels" />
             <End Role="ProgramTrainings" EntitySet="ProgramTrainings" />
@@ -128,9 +181,16 @@
             <End Role="Trainings" EntitySet="Trainings" />
             <End Role="ProgramTrainings" EntitySet="ProgramTrainings" />
           </AssociationSet>
+          <AssociationSet Name="FK_PT_User" Association="Self.FK_PT_User">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="EventUser" EntitySet="EventUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Trainings_User" Association="Self.FK_Trainings_User">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Trainings" EntitySet="Trainings" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AnimaliaDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -146,6 +206,7 @@
           <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="MaxParticipants" Type="Int32" />
           <NavigationProperty Name="Users" Relationship="Self.FK_Events_User" FromRole="Events" ToRole="Users" />
+          <NavigationProperty Name="Users1" Relationship="AnimaliaDbModel.EventUser" FromRole="Events" ToRole="Users" />
         </EntityType>
         <EntityType Name="ProgramModels">
           <Key>
@@ -179,6 +240,9 @@
           <Property Name="Equipment" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Level" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ProgramModels" Relationship="Self.ProgramTrainings" FromRole="Trainings" ToRole="ProgramModels" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="AnimaliaDbModel.FK_Trainings_User" FromRole="Trainings" ToRole="Users" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -191,6 +255,8 @@
           <Property Name="Nom" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Events" Relationship="Self.FK_Events_User" FromRole="Users" ToRole="Events" />
+          <NavigationProperty Name="Trainings" Relationship="AnimaliaDbModel.FK_Trainings_User" FromRole="Users" ToRole="Trainings" />
+          <NavigationProperty Name="Events1" Relationship="AnimaliaDbModel.EventUser" FromRole="Users" ToRole="Events" />
         </EntityType>
         <Association Name="FK_Events_User">
           <End Role="Users" Type="Self.Users" Multiplicity="1">
@@ -224,7 +290,33 @@
             <End Role="ProgramModels" EntitySet="ProgramModels" />
             <End Role="Trainings" EntitySet="Trainings" />
           </AssociationSet>
+          <AssociationSet Name="FK_Trainings_User" Association="AnimaliaDbModel.FK_Trainings_User">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Trainings" EntitySet="Trainings" />
+          </AssociationSet>
+          <AssociationSet Name="EventUser" Association="AnimaliaDbModel.EventUser">
+            <End Role="Events" EntitySet="Events" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_Trainings_User">
+          <End Type="AnimaliaDbModel.Users" Role="Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AnimaliaDbModel.Trainings" Role="Trainings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Trainings">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EventUser">
+          <End Type="AnimaliaDbModel.Events" Role="Events" Multiplicity="*" />
+          <End Type="AnimaliaDbModel.Users" Role="Users" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -270,6 +362,8 @@
           <EntitySetMapping Name="Trainings">
             <EntityTypeMapping TypeName="AnimaliaDbModel.Trainings">
               <MappingFragment StoreEntitySet="Trainings">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="DurationMinutes" ColumnName="DurationMinutes" />
@@ -296,6 +390,14 @@
             </EndProperty>
             <EndProperty Name="Trainings">
               <ScalarProperty Name="Id" ColumnName="TrainingId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="EventUser" TypeName="AnimaliaDbModel.EventUser" StoreEntitySet="EventUser">
+            <EndProperty Name="Users">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="Events">
+              <ScalarProperty Name="Id" ColumnName="EventId" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>

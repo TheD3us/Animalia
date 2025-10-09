@@ -41,5 +41,11 @@ namespace Animalia.Models
             context.Trainings.Remove(t);
             context.SaveChanges();
         }
+
+        public List<Trainings> GetByUser(int id)
+        {
+            AnimaliaDbEntities context = new AnimaliaDbEntities();
+            return context.Trainings.Where(a => a.UserId == id).ToList();
+        }
     }
 }

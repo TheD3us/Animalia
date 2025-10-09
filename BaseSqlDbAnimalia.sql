@@ -37,6 +37,7 @@ CREATE TABLE ProgramModels (
 CREATE TABLE Trainings (
     Id INT IDENTITY PRIMARY KEY,
     Title NVARCHAR(200) NOT NULL,
+	Description NVARCHAR(1000) NOT NULL,
     DurationMinutes INT,
     Equipment NVARCHAR(100),
     Level NVARCHAR(50),
@@ -67,6 +68,17 @@ CREATE TABLE Events (
     MaxParticipants INT,
     CONSTRAINT FK_Events_User FOREIGN KEY (UserId)
         REFERENCES Users(Id) ON DELETE CASCADE
+);
+
+--- Table de liaison training users
+CREATE TABLE EventUser (
+    EventId INT NOT NULL,
+    UserId INT NOT NULL,
+    PRIMARY KEY (EventId, UserId),
+    CONSTRAINT FK_PT_Event FOREIGN KEY (EventId)
+        REFERENCES Events(Id),
+    CONSTRAINT FK_PT_User FOREIGN KEY (UserId)
+        REFERENCES Users(Id)
 );
 
 -- Table des Témoignages
