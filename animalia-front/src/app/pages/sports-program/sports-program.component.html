@@ -17,7 +17,7 @@
 </section>
 
 <!-- ====== LISTE ENTRAÎNEMENTS ====== -->
-<section class="container my-5">
+<!--<section class="container my-5">
   <h2 class="mb-4 text-center">Liste des Entraînements</h2>
   <div class="row row-cols-1 row-cols-md-3 g-4">
     @for (workout of workouts; track workout.id) {
@@ -29,6 +29,25 @@
     </div>
     }
   </div>
+</section>-->
+<!-- ====== LISTE DES ENTRAÎNEMENTS ====== -->
+<section class="container my-5">
+  <h2 class="mb-4 text-center">Liste des Entraînements</h2>
+ <!--Message si aucun programme--> 
+<div *ngIf="programModels.length === 0" class="text-center text-muted">
+  Aucun programme disponible pour le moment.
+</div>
+ <!--Grille de ProgramModels--> 
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="col" *ngFor="let workout of programCards">
+      <app-program-card [program]="workout"
+                        [showFeatures]="false"
+                        (cardClick)="onProgramCardClick($event)">
+      </app-program-card>
+    </div>
+
+  </div>
+
 </section>
 
 <!-- ====== LISTE DES ÉVÉNEMENTS ====== -->
