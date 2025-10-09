@@ -6,6 +6,7 @@ import { PurchaseService } from '../../services/purchase.service';
 import { CartService } from '../../services/cart.service';
 import { Training } from '../../interfaces/training';
 import { TrainingService } from '../../services/training-service';
+import { ProgramModelService } from '../../services/program-model';
 
 interface WorkoutData {
   id: string;
@@ -27,7 +28,7 @@ export class WorkoutDetailComponent implements OnInit {
   workoutContent: any = {};
   isPurchased = false;
   workoutPrice = '';
-  trains: Training[] = [];
+  trainings: Training[] = []; 
 
   constructor(
     private route: ActivatedRoute,
@@ -35,41 +36,73 @@ export class WorkoutDetailComponent implements OnInit {
     private location: Location,
     private purchaseService: PurchaseService,
     private cartService: CartService,
-    private trainingService: TrainingService
+    private trainingService: TrainingService,
+    private programService: ProgramModelService
   ) {}
 
   ngOnInit() {
-    const workoutId = this.route.snapshot.paramMap.get('id');
-    if (workoutId) {
+    const programId = this.route.snapshot.paramMap.get('id');
+    if (programId) {
 
-      this.trainingService.get(+workoutId).subscribe({
-        next: (res: any) => {
-          this.workout = {
-            id: res.Id.toString(),
-            title: res.Title,
-            description: res.Description,
-            type: 'training'
-          };
-        }
+      this.programService.getTrainingByProgram(+programId).subscribe({
+        next: (res: any[]) => {
+          console.log(res);
+
+          // On mappe les propriétés du backend vers notre interface Training
+          this.trainings = res.map(item => ({
+            id: item.Id,
+            title: item.Title,
+            description: item.Description,
+            durationMinutes: item.DurationMinutes,
+            equipment: item.Equipment,
+            level: item.Level
+
+          } as Training));
+
+          if (this.trainings.length > 0) {
+            const t = this.trainings[0];
+            this.workout = {
+              id: t.id.toString(),
+              title: t.title,
+              description: `Durée : ${t.durationMinutes} min | Niveau : ${t.level} | Matériel : ${t.equipment}`,
+              type: 'training'
+            };
+          }
+        },
+        error: (err) => console.error("Erreur lors du chargement des trainings du programme", err)
       });
+
 
     }
 
   }
 
-  addToCart() {
+  addToCart(training: Training) {
+    this.cartService.addItem({
+      id: training.id.toString(),
+      title: training.title,
+      description: `Durée : ${training.durationMinutes} min | Niveau : ${training.level} | Matériel : ${training.equipment}`,
+      type: 'training',
+      addedAt: new Date()
+    });
+    alert(`"${training.title}" a été ajouté à votre panier !`);
+  }
 
-    if (this.workout) {
-      this.cartService.addItem({
-        id: this.workout.id,
-        title: this.workout.title,
-        description: this.workout.description,
-        type: 'training',
-        addedAt: new Date()
+  addAllToCart() {
+    if (this.trainings && this.trainings.length > 0) {
+      this.trainings.forEach(t => {
+        this.cartService.addItem({
+          id: t.id.toString(),
+          title: t.title,
+          description: `Durée : ${t.durationMinutes} min | Niveau : ${t.level} | Matériel : ${t.equipment}`,
+          type: 'training',
+          addedAt: new Date()
+        });
       });
-      alert(`"${this.workout.title}" a été ajouté à votre panier !`);
+      alert(`${this.trainings.length} entraînement(s) ont été ajoutés à votre panier !`);
     }
   }
+
 
   goBack() {
     this.location.back();
