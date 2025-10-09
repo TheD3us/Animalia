@@ -40,6 +40,8 @@
     <EntitySetMapping Name="Trainings">
       <EntityTypeMapping TypeName="AnimaliaDbModel.Trainings">
         <MappingFragment StoreEntitySet="Trainings">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Title" ColumnName="Title" />
           <ScalarProperty Name="DurationMinutes" ColumnName="DurationMinutes" />
@@ -66,6 +68,14 @@
       </EndProperty>
       <EndProperty Name="Trainings">
         <ScalarProperty Name="Id" ColumnName="TrainingId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="EventUser" TypeName="AnimaliaDbModel.EventUser" StoreEntitySet="EventUser">
+      <EndProperty Name="Users">
+        <ScalarProperty Name="Id" ColumnName="UserId" />
+      </EndProperty>
+      <EndProperty Name="Events">
+        <ScalarProperty Name="Id" ColumnName="EventId" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>
