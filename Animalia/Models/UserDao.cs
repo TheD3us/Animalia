@@ -48,5 +48,12 @@ namespace Animalia.Models
             return context.Users.Where(a => a.Email == login && a.Password == Mdp).First().Id;
             
         }
+
+        public List<Events> SelectEventParticipation(int id)
+        {
+            AnimaliaDbEntities context = new AnimaliaDbEntities();
+
+            return context.Users.Where(u => u.Id == id).SelectMany(u => u.Events1).ToList();
+        }
     }
 }
