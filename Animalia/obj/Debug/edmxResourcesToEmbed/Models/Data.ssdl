@@ -12,6 +12,14 @@
     <Property Name="Notes" Type="nvarchar(max)" />
     <Property Name="MaxParticipants" Type="int" />
   </EntityType>
+  <EntityType Name="EventUser">
+    <Key>
+      <PropertyRef Name="EventId" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="EventId" Type="int" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="ProgramModels">
     <Key>
       <PropertyRef Name="Id" />
@@ -47,9 +55,11 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Title" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="1000" Nullable="false" />
     <Property Name="DurationMinutes" Type="int" />
     <Property Name="Equipment" Type="nvarchar" MaxLength="100" />
     <Property Name="Level" Type="nvarchar" MaxLength="50" />
+    <Property Name="UserId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Users">
     <Key>
@@ -73,6 +83,18 @@
       </Principal>
       <Dependent Role="Events">
         <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PT_Event">
+    <End Role="Events" Type="Self.Events" Multiplicity="1" />
+    <End Role="EventUser" Type="Self.EventUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Events">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EventUser">
+        <PropertyRef Name="EventId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -104,8 +126,35 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_PT_User">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="EventUser" Type="Self.EventUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EventUser">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Trainings_User">
+    <End Role="Users" Type="Self.Users" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Trainings" Type="Self.Trainings" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Trainings">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="AnimaliaDbModelStoreContainer">
     <EntitySet Name="Events" EntityType="Self.Events" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EventUser" EntityType="Self.EventUser" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProgramModels" EntityType="Self.ProgramModels" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProgramTrainings" EntityType="Self.ProgramTrainings" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Testimonials" EntityType="Self.Testimonials" Schema="dbo" store:Type="Tables" />
@@ -115,6 +164,10 @@
       <End Role="Users" EntitySet="Users" />
       <End Role="Events" EntitySet="Events" />
     </AssociationSet>
+    <AssociationSet Name="FK_PT_Event" Association="Self.FK_PT_Event">
+      <End Role="Events" EntitySet="Events" />
+      <End Role="EventUser" EntitySet="EventUser" />
+    </AssociationSet>
     <AssociationSet Name="FK_PT_Program" Association="Self.FK_PT_Program">
       <End Role="ProgramModels" EntitySet="ProgramModels" />
       <End Role="ProgramTrainings" EntitySet="ProgramTrainings" />
@@ -122,6 +175,14 @@
     <AssociationSet Name="FK_PT_Training" Association="Self.FK_PT_Training">
       <End Role="Trainings" EntitySet="Trainings" />
       <End Role="ProgramTrainings" EntitySet="ProgramTrainings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PT_User" Association="Self.FK_PT_User">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="EventUser" EntitySet="EventUser" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Trainings_User" Association="Self.FK_Trainings_User">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Trainings" EntitySet="Trainings" />
     </AssociationSet>
   </EntityContainer>
 </Schema>
