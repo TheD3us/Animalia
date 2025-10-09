@@ -1,20 +1,3 @@
-<!-- ====== SECTION OFFRES ====== -->
-<section class="container my-5">
-  <h2 class="mb-4 text-center">
-    <i class="fas fa-dumbbell me-2 text-primary"></i>
-    Nos Offres
-  </h2>
-  <div class="row g-4">
-    @for (pack of packs; track pack.id) {
-    <div class="col-md-4">
-      <app-program-card [program]="pack"
-                        [showFeatures]="false"
-                        (cardClick)="onProgramCardClick($event)">
-      </app-program-card>
-    </div>
-    }
-  </div>
-</section>
 
 <!-- ====== LISTE ENTRAÎNEMENTS ====== -->
 <!--<section class="container my-5">
@@ -188,7 +171,7 @@
             <div class="text-center">
               <button type="submit"
                       class="btn btn-primary"
-                      [disabled]="eventForm.invalid || isSubmittingEvent()">
+                      [disabled]="eventForm.invalid || isSubmittingEvent() || userId === -1">
                 @if (isSubmittingEvent()) {
                 <span class="spinner-border spinner-border-sm me-2" role="status"></span>
                 } @else {
@@ -196,7 +179,13 @@
                 }
                 {{ isSubmittingEvent() ? 'Création...' : 'Créer' }}
               </button>
+              
             </div>
+            @if (userId === -1) {
+                <p>
+                  Il Faut vous connecter pour poster un évènement
+                <p>
+              }
           </form>
         </div>
       </div>
