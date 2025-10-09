@@ -42,5 +42,11 @@ namespace Animalia.Controllers
         {
             return new UserDao().VerifLoginMdp(login, Mdp);
         }
+
+        [Route("api/user/events/{id:int}")]
+        public List<Events> SelectEventParticipation(int id)
+        {
+            return new UserDao().SelectEventParticipation(id);
+        }
     }
 }

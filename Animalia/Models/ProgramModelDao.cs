@@ -41,5 +41,11 @@ namespace Animalia.Models
             context.ProgramModels.Remove(program);
             context.SaveChanges();
         }
+
+        public List<Trainings> GetTrainingByProgram(int id)
+        {
+            AnimaliaDbEntities context = new AnimaliaDbEntities();
+            return context.ProgramModels.Where(p => p.Id == id).SelectMany(t => t.Trainings).ToList();
+        }
     }
 }
