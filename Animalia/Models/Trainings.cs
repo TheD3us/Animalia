@@ -25,8 +25,11 @@ namespace Animalia.Models
         public Nullable<int> DurationMinutes { get; set; }
         public string Equipment { get; set; }
         public string Level { get; set; }
+        public string Description { get; set; }
+        public int UserId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProgramModels> ProgramModels { get; set; }
+        public virtual Users Users { get; set; }
     }
 }

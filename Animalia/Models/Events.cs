@@ -14,6 +14,12 @@ namespace Animalia.Models
     
     public partial class Events
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Events()
+        {
+            this.Users1 = new HashSet<Users>();
+        }
+    
         public int Id { get; set; }
         public int UserId { get; set; }
         public string Title { get; set; }
@@ -23,5 +29,7 @@ namespace Animalia.Models
         public Nullable<int> MaxParticipants { get; set; }
     
         public virtual Users Users { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Users> Users1 { get; set; }
     }
 }

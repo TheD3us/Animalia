@@ -18,6 +18,8 @@ namespace Animalia.Models
         public Users()
         {
             this.Events = new HashSet<Events>();
+            this.Trainings = new HashSet<Trainings>();
+            this.Events1 = new HashSet<Events>();
         }
     
         public int Id { get; set; }
@@ -29,5 +31,9 @@ namespace Animalia.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Events> Events { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Trainings> Trainings { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Events> Events1 { get; set; }
     }
 }
