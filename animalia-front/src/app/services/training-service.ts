@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environement/environment';
 import { Training } from '../interfaces/training';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +10,8 @@ import { Training } from '../interfaces/training';
 export class TrainingService {
   constructor(private http: HttpClient){}
   
-  getListe(){
-    return this.http.get(environment.apiUrl + "training");
+  getListe() : Observable<Training[]>{
+    return this.http.get<Training[]>(environment.apiUrl + "training");
   }
 
   get(id: number){
