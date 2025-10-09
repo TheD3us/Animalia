@@ -13,12 +13,12 @@ export class OffersComponent {
     {
       id: 'pack-debutant',
       title: 'Pack Débutant',
-      description: 'Accès à 10 séances d\'entraînement + suivi personnalisé par un coach certifié.',
+      description: 'Accès à 10 programmes d\'entraînement + suivi personnalisé par un coach certifié.',
       price: '29,99 €',
       difficulty: 'easy',
       image: 'assets/images/Tucker_le_chat_le_plus_triste_du_monde.jpg',
       features: [
-        '10 séances d\'entraînement',
+        '10 programmes d\'entraînement',
         'Suivi personnalisé',
         'Coach certifié',
         'Support client'
@@ -31,11 +31,11 @@ export class OffersComponent {
       id: 'pack-intermediaire',
       title: 'Pack Intermédiaire',
       difficulty: 'easy',
-      description: '20 séances + accès illimité à la bibliothèque vidéo + conseils nutritionnels.',
+      description: '20 programmes + accès illimité à la bibliothèque vidéo + conseils nutritionnels.',
       price: '49,99 €',
       image: 'assets/images/chien.jpg',
       features: [
-        '20 séances d\'entraînement',
+        '20 programmes d\'entraînement',
         'Bibliothèque vidéo illimitée',
         'Conseils nutritionnels',
         'Support premium'
@@ -48,11 +48,11 @@ export class OffersComponent {
       id: 'pack-premium',
       title: 'Pack Premium',
       difficulty: 'easy',
-      description: 'Accès illimité à toutes les séances + coaching vidéo en direct + suivi santé complet.',
+      description: 'Accès illimité à tous les programmes + coaching vidéo en direct + suivi santé complet.',
       price: '79,99 €',
       image: 'assets/images/rendre-un-chien-heureux.jpg',
       features: [
-        'Accès illimité aux séances',
+        'Accès illimité aux programmes',
         'Coaching vidéo en direct',
         'Suivi santé complet',
         'Support VIP 24/7'
