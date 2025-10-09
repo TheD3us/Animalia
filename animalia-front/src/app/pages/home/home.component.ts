@@ -16,23 +16,8 @@ import { ProgramModel } from '../../interfaces/program-models';
 })
 export class HomeComponent {
   ListProgramCard: ProgramCard[] = [];
-  ListProgram: ProgramModel[] = [];
-  ListTestimonial: Testimonial[] = [];
     // Avis clients pour le carousel
   protected readonly testimonials: CarouselItem[] = [];
-  testimonial: CarouselItem = {
-    id: '',
-    content: '',
-    author: ''
-  };
-  card: ProgramCard = {id: '',
-      title: '', 
-      description: '',
-      image: '',
-      difficulty:'',
-      buttonText: 'Découvrir',
-      buttonClass: 'btn-primary',
-      buttonIcon: 'fa-solid fa-paw'};
 
   constructor(private programService: ProgramModelService, 
               private testimonialService : TestimonialService
@@ -42,43 +27,53 @@ export class HomeComponent {
     //On récupère la liste de programModel
     this.programService.getListe().subscribe({
   next: (res : ProgramModel[]) => {
-    this.ListProgram = res;
-    console.log(this.ListProgram);
+    
+    this.FillProgramCard(res);
+    console.log(this.testimonials);
   },
   error: (err) => console.error(err)
   });
-  this.FillProgramCard();
+  
 
     //on récupère la liste de testimonial
     this.testimonialService.getListe().subscribe({
       next: (res: Testimonial[]) => {
-        this.ListTestimonial = res;
-        console.log(this.ListTestimonial);
+        this.FillTestimonial(res);
+        console.log("Resultat : testimonial ", res);
       },
       error: (err) => console.error(err)
     })
-    this.FillTestimonial();
+    
   }
 
-  FillProgramCard(){
-    this.ListProgram.forEach(item => {
-        this.card.id = item.Id.toString();
-        this.card.title = item.Title;
-        this.card.description = item.Summary;
-        this.card.image = item.ImageUrl;
-        this.card.difficulty = item.Difficulty;
+  FillProgramCard(res: ProgramModel[]){
+    res.forEach( (item) => {
+      const card: ProgramCard = {id: item.Id.toString(),
+      title: item.Title, 
+      description: item.Summary,
+      image: item.ImageUrl,
+      difficulty:item.Difficulty,
+      buttonText: 'Découvrir',
+      buttonClass: 'btn-primary',
+      buttonIcon: 'fa-solid fa-paw'};
         
+        console.log(card);
       this.ListProgramCard.push(
-        this.card
+        card
       )
     })
+    console.log(this.ListProgramCard);
   }
 
-  FillTestimonial(){
-    this.ListTestimonial.forEach(item => {
-      this.testimonial.id = item.Id.toString();
-      this.testimonial.content = item.Text;
-      this.testimonial.author = item.AuthorName;
+  FillTestimonial(res: Testimonial[]){
+    res.forEach(item => {
+      const testimonial: CarouselItem = {
+        id : item.Id.toString(),
+        content : item.Text,
+        author : item.AuthorName
+      }
+      
+      this.testimonials.push(testimonial);
     })
   }
 
