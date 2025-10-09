@@ -19,14 +19,41 @@ export class SportsProgramComponent {
 
   constructor(
     private eventService: EventService,
-    private programService: ProgramModelService
+    private programService: ProgramModelService,
   ) { }
 
   // Liste des événements récupérés en base
   events: Event[] = [];
+  programModels: any[] = [];
 
   ngOnInit(): void {
     this.loadEvents();
+    this.loadProgramModels();
+
+  }
+  programCards: ProgramCard[] = [];
+
+  loadProgramModels() {
+    this.programService.getListe().subscribe({
+      next: (data: any) => {
+        this.programModels = data;
+
+        //Mapping ProgramModel -> ProgramCard
+        this.programCards = data.map((pm: { Id: { toString: () => any; }; Title: any; Summary: any; Difficulty: any; Price: string; ImageUrl: any; }) => ({
+          id: pm.Id.toString(),
+          title: pm.Title,
+          description: pm.Summary,
+          difficulty: pm.Difficulty,
+          price: pm.Price ? pm.Price + " €" : "Gratuit",
+          buttonText: "Essayer",
+          buttonClass: "btn-primary",
+          buttonIcon: "bi bi-check-circle",
+          type: "workout",
+          image: pm.ImageUrl
+        }));
+      },
+      error: (err) => console.error("Erreur lors du chargement des ProgramModels", err)
+    });
   }
 
   loadEvents() {
@@ -194,20 +221,23 @@ export class SportsProgramComponent {
       this.isSubmittingProposal.set(true);
       const data = this.proposalForm.value;
 
-      this.programService.post({
+      const newProgramModel = {
         Id: 0,
         Title: data.titre!,
         Summary: data.description!,
         Difficulty: 'Facile',
         Price: 0,
         ImageUrl: ''
-      });
+      };
 
-      // Le .subscribe() est dans le service.
+      this.programService.post(newProgramModel); // le subscribe est dans le service
+
+      // On recharge la liste après un petit délai (pour laisser l’API répondre)
       setTimeout(() => {
+        this.loadProgramModels();
         this.isSubmittingProposal.set(false);
         this.proposalForm.reset();
-      }, 1000);
+      }, 500);
     }
   }
 
@@ -235,12 +265,28 @@ export class SportsProgramComponent {
   }
 
 
+  //onProgramCardClick(programId: string) {
+  //  console.log('Programme sélectionné:', programId);
+  //  if (this.workouts.find(w => w.id === programId)) {
+  //    window.location.href = `/workout/${programId}`;
+  //  } else {
+  //    console.log('Pack sélectionné:', programId);
+  //  }
+  //}
+
   onProgramCardClick(programId: string) {
     console.log('Programme sélectionné:', programId);
+
+    // Si c’est un workout statique
     if (this.workouts.find(w => w.id === programId)) {
       window.location.href = `/workout/${programId}`;
-    } else {
+    }
+    // Sinon, c’est un ProgramModel (pack)
+    else if (this.programCards.find(p => p.id === programId)) {
       console.log('Pack sélectionné:', programId);
+      window.location.href = `/workout/${programId}`;
     }
   }
+
+
 }
