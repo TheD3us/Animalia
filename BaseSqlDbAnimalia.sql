@@ -37,6 +37,7 @@ CREATE TABLE ProgramModels (
 CREATE TABLE Trainings (
     Id INT IDENTITY PRIMARY KEY,
     Title NVARCHAR(200) NOT NULL,
+	Description NVARCHAR(1000) NOT NULL,
     DurationMinutes INT,
     Equipment NVARCHAR(100),
     Level NVARCHAR(50),
