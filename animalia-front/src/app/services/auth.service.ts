@@ -1,23 +1,25 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, fromEvent, merge, timer } from 'rxjs';
+import { BehaviorSubject, fromEvent, merge, Observable, of, timer } from 'rxjs';
 import { debounceTime, switchMap, tap } from 'rxjs/operators';
+import { UserService } from './user-service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   private sessionTimer: any;
+  private UserId: Observable<number> = of(-1);
   private readonly SESSION_TIMEOUT = 60 * 60 * 1000; // 1 heure en millisecondes
 
   isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
-  constructor() {
+  constructor(private userService: UserService) {
     this.initActivityMonitoring();
   }
 
   login(credentials: any): boolean {
-    const isValid = this.validateCredentials(credentials);
+    this.UserId = this.validateCredentials(credentials);
     
-    if (isValid) {
+    if (this.UserId != null) {
       this.isLoggedInSubject.next(true);
       this.startSessionTimer();
       this.saveSession();
@@ -32,8 +34,8 @@ export class AuthService {
     this.clearSession();
   }
 
-  private validateCredentials(credentials: any): boolean {
-    return credentials.username && credentials.password;
+  private validateCredentials(credentials: any): Observable<number> {
+    return this.userService.verifLogin(credentials.username, credentials.password);
   }
 
   private startSessionTimer() {
@@ -103,6 +105,18 @@ export class AuthService {
         this.clearSession();
       }
     }
+  }
+
+  whoIsLoggedIn(): Observable<number>{
+    if(this.UserId != undefined)
+    {
+      return this.UserId;
+    }
+    else
+    {
+      return of(-1);
+    }
+    
   }
 
   isLoggedIn(): boolean {
