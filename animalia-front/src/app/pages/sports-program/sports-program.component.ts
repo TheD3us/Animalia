@@ -6,6 +6,8 @@ import { EventService } from '../../services/event.service';
 import { ProgramModelService } from '../../services/program-model';
 import { DatePipe, NgIf, NgFor, NgForOf } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { TrainingService } from '../../services/training-service';
+import { Training } from '../../interfaces/training';
 
 
 @Component({
@@ -21,7 +23,8 @@ export class SportsProgramComponent {
   constructor(
     private eventService: EventService,
     private programService: ProgramModelService,
-    private authService: AuthService
+    private authService: AuthService,
+    private trainingService: TrainingService
   ) { }
 
   // Liste des événements récupérés en base
@@ -115,10 +118,20 @@ export class SportsProgramComponent {
   ];
 
 
+  //protected readonly proposalForm = this.fb.group({
+  //  titre: ['', [Validators.required, Validators.minLength(3)]],
+  //  description: ['', [Validators.required, Validators.minLength(10)]]
+  //});
+
   protected readonly proposalForm = this.fb.group({
     titre: ['', [Validators.required, Validators.minLength(3)]],
-    description: ['', [Validators.required, Validators.minLength(10)]]
+    //description: ['', [Validators.required, Validators.minLength(10)]],
+
+    durationMinutes: [0, [Validators.required, Validators.min(5)]],
+    equipment: ['', [Validators.required, Validators.minLength(2)]],
+    level: ['', [Validators.required]]
   });
+
 
   protected readonly eventForm = this.fb.group({
     nomEvent: ['', [Validators.required, Validators.minLength(3)]],
@@ -134,25 +147,24 @@ export class SportsProgramComponent {
       this.isSubmittingProposal.set(true);
       const data = this.proposalForm.value;
 
-      const newProgramModel = {
-        Id: 0,
-        Title: data.titre!,
-        Summary: data.description!,
-        Difficulty: 'Facile',
-        Price: 0,
-        ImageUrl: ''
+      const newTraining: Training = {
+        id: 0, // l’API génère l’ID
+        title: data.titre!,
+        durationMinutes: data.durationMinutes!,
+        equipment: data.equipment!,
+        level: data.level!
       };
 
-      this.programService.post(newProgramModel); // le subscribe est dans le service
+      this.trainingService.post(newTraining); // le subscribe est dans le service
 
-      // On recharge la liste après un petit délai (pour laisser l’API répondre)
+      // On recharge la liste après un petit délai (si tu veux afficher les trainings)
       setTimeout(() => {
-        this.loadProgramModels();
         this.isSubmittingProposal.set(false);
         this.proposalForm.reset();
       }, 500);
     }
   }
+
 
   onSubmitEvent() {
     if (this.eventForm.valid) {
