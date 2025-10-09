@@ -12,6 +12,7 @@ namespace Animalia
             // Configuration et services API Web
             config.EnableCors();
 
+
             // Itinéraires de l'API Web
             config.MapHttpAttributeRoutes();
 
@@ -20,6 +21,12 @@ namespace Animalia
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            // Forcer JSON par défaut
+            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling
+                = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+
+            config.Formatters.Remove(config.Formatters.XmlFormatter);
         }
     }
 }

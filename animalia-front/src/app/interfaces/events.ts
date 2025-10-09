@@ -1,9 +1,9 @@
-export interface events{
-    id: number;
-    userId: number;
-    title: string; 
-    date: Date;
-    location: string;
-    notes: string;
-    MaxParticipants: number;
+export interface Event {
+  Id: number;
+  UserId: number;
+  Title: string;
+  DateTime: string;
+  Location: string;
+  Notes: string;
+  MaxParticipants?: number;
 }

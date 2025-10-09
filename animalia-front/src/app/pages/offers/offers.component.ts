@@ -15,6 +15,7 @@ export class OffersComponent {
       title: 'Pack Débutant',
       description: 'Accès à 10 séances d\'entraînement + suivi personnalisé par un coach certifié.',
       price: '29,99 €',
+      difficulty: 'easy',
       image: 'assets/images/Tucker_le_chat_le_plus_triste_du_monde.jpg',
       features: [
         '10 séances d\'entraînement',
@@ -29,6 +30,7 @@ export class OffersComponent {
     {
       id: 'pack-intermediaire',
       title: 'Pack Intermédiaire',
+      difficulty: 'easy',
       description: '20 séances + accès illimité à la bibliothèque vidéo + conseils nutritionnels.',
       price: '49,99 €',
       image: 'assets/images/chien.jpg',
@@ -45,6 +47,7 @@ export class OffersComponent {
     {
       id: 'pack-premium',
       title: 'Pack Premium',
+      difficulty: 'easy',
       description: 'Accès illimité à toutes les séances + coaching vidéo en direct + suivi santé complet.',
       price: '79,99 €',
       image: 'assets/images/rendre-un-chien-heureux.jpg',

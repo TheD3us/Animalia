@@ -1,15 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environement/environment';
+import { Observable } from 'rxjs';
+import { ProgramModel } from '../interfaces/program-models';
 
-export interface ProgramModel {
-  id: number;
-  title: string;
-  summary: string;
-  difficulty: string;
-  price: number;
-  imageUrl: string;
-}
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +11,8 @@ export interface ProgramModel {
 export class ProgramModelService {
   constructor(private http: HttpClient) { }
 
-  getListe() {
-    return this.http.get(environment.apiUrl + "programmodel");
+  getListe(): Observable<ProgramModel[]> {
+    return this.http.get<ProgramModel[]>(environment.apiUrl + "programmodel");
   }
 
   get(id: number) {
@@ -55,3 +49,5 @@ export class ProgramModelService {
     });
   }
 }
+;
+
