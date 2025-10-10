@@ -1,0 +1,208 @@
+@model IEnumerable<Administration.Models.Entities.Event>
+
+@{
+    ViewData["Title"] = "Événements";
+    var allEvents = Model.Where(e => e.User != null).ToList();
+    var upcomingEvents = allEvents.Where(e => e.DateTime > DateTime.Now).OrderBy(e => e.DateTime);
+    var pastEvents = allEvents.Where(e => e.DateTime <= DateTime.Now).OrderByDescending(e => e.DateTime);
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h2>@ViewData["Title"]</h2>
+        <p class="text-muted">Gérez tous les événements de la plateforme</p>
+    </div>
+    <a asp-action="Create" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Nouvel événement
+    </a>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card bg-primary text-white">
+            <div class="card-body text-center">
+                <h3>@allEvents.Count()</h3>
+                <p class="mb-0">Total événements</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-success text-white">
+            <div class="card-body text-center">
+                <h3>@upcomingEvents.Count()</h3>
+                <p class="mb-0">À venir</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-warning text-white">
+            <div class="card-body text-center">
+                <h3>@allEvents.Where(e => e.DateTime.Date == DateTime.Today).Count()</h3>
+                <p class="mb-0">Aujourd'hui</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (!allEvents.Any())
+{
+    <div class="text-center py-5">
+        <i class="fas fa-calendar-times fa-4x text-muted mb-3"></i>
+        <h4>Aucun événement</h4>
+        <p class="text-muted">Commencez par créer le premier événement.</p>
+        <a asp-action="Create" class="btn btn-primary btn-lg">
+            <i class="fas fa-plus"></i> Créer un événement
+        </a>
+    </div>
+}
+else
+{
+    @if (upcomingEvents.Any())
+    {
+        <div class="mb-4">
+            <h4 class="text-success">
+                Événements à venir (@upcomingEvents.Count())
+            </h4>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-success">
+                        <tr>
+                            <th>Événement</th>
+                            <th>Date & Heure</th>
+                            <th>Lieu</th>
+                            <th>Organisateur</th>
+                            <th>Participants</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in upcomingEvents)
+                        {
+                            <tr>
+                                <td>
+                                    <strong>@item.Title</strong>
+                                    @if (!string.IsNullOrEmpty(item.Notes))
+                                    {
+                                        <br><small class="text-muted">@item.Notes.Substring(0, Math.Min(50, item.Notes.Length))@(item.Notes.Length > 50 ? "..." : "")</small>
+                                    }
+                                </td>
+                                <td>
+                                    <strong>@item.DateTime.ToString("dd/MM/yyyy")</strong>
+                                    <br><small class="text-muted">@item.DateTime.ToString("HH:mm")</small>
+                                    @if (item.DateTime.Date == DateTime.Today)
+                                    {
+                                        <br><span class="badge bg-warning">Aujourd'hui</span>
+                                    }
+                                    else if (item.DateTime.Date == DateTime.Today.AddDays(1))
+                                    {
+                                        <br><span class="badge bg-info">Demain</span>
+                                    }
+                                </td>
+                                <td>
+                                    <i class="fas fa-map-marker-alt text-primary"></i>
+                                    @item.Location
+                                </td>
+                                <td>
+                                    @if (item.User != null)
+                                    {
+                                        <span class="text-muted">@item.User.FullName</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.MaxParticipants.HasValue)
+                                    {
+                                        <span class="badge bg-info">Max @item.MaxParticipants</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">Illimité</span>
+                                    }
+                                </td>
+                                <td>
+                                    @{
+                                        var timeToEvent = item.DateTime - DateTime.Now;
+                                    }
+                                    @if (timeToEvent.TotalHours < 24)
+                                    {
+                                        <span class="badge bg-warning">Bientôt</span>
+                                    }
+                                    else if (timeToEvent.TotalDays < 7)
+                                    {
+                                        <span class="badge bg-info">Cette semaine</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-success">Planifié</span>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info btn-sm" title="Voir les détails">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning btn-sm" title="Modifier">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <form asp-action="DeleteConfirmed" asp-antiforgery="true" method="post" class="d-inline">
+                                            <input type="hidden" name="id" value="@item.Id" />
+                                            <button type="submit" class="btn btn-outline-danger btn-sm" title="Supprimer">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+
+    @if (pastEvents.Any())
+    {
+        <div class="mb-4">
+            <h4 class="text-secondary">
+                Événements passés (@pastEvents.Count())
+            </h4>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th>Événement</th>
+                            <th>Date & Heure</th>
+                            <th>Lieu</th>
+                            <th>Organisateur</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in pastEvents)
+                        {
+                            <tr class="text-muted">
+                                <td>
+                                    @item.Title
+                                    <span class="badge bg-secondary ms-2">Terminé</span>
+                                </td>
+                                <td>@item.DateTime.ToString("dd/MM/yyyy HH:mm")</td>
+                                <td>@item.Location</td>
+                                <td>
+                                    @if (item.User != null)
+                                    {
+                                        <span>@item.User.FullName</span>
+                                    }
+                                </td>
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info btn-sm">
+                                        <i class="fas fa-eye"></i> Voir
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+}
