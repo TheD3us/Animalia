@@ -16,7 +16,7 @@ export class OffersComponent {
       description: 'Accès à 10 programmes d\'entraînement + suivi personnalisé par un coach certifié.',
       price: '29,99 €',
       difficulty: 'easy',
-      image: 'assets/images/Tucker_le_chat_le_plus_triste_du_monde.jpg',
+      image: 'PackDebutant.png',
       features: [
         '10 programmes d\'entraînement',
         'Suivi personnalisé',
@@ -33,7 +33,7 @@ export class OffersComponent {
       difficulty: 'easy',
       description: '20 programmes + accès illimité à la bibliothèque vidéo + conseils nutritionnels.',
       price: '49,99 €',
-      image: 'assets/images/chien.jpg',
+      image: 'PackIntermediaire.png',
       features: [
         '20 programmes d\'entraînement',
         'Bibliothèque vidéo illimitée',
@@ -50,7 +50,7 @@ export class OffersComponent {
       difficulty: 'easy',
       description: 'Accès illimité à tous les programmes + coaching vidéo en direct + suivi santé complet.',
       price: '79,99 €',
-      image: 'assets/images/rendre-un-chien-heureux.jpg',
+      image: 'PackPremium.png',
       features: [
         'Accès illimité aux programmes',
         'Coaching vidéo en direct',
