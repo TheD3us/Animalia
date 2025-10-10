@@ -18,40 +18,28 @@ export class TrainingService {
     return this.http.get<Training>(environment.apiUrl + "training/" + id);
   }
 
-  post(data: Training){
+  post(data: Training) {
     const body = JSON.stringify(data);
-
     this.http.post(environment.apiUrl + "training", body, {
-      headers: new HttpHeaders({
-        "Content-Type": "application/json"
-      })
-    }).
-      subscribe(response => {
-
-        console.log("crud service post training OK");
-
-      });
+      headers: new HttpHeaders({ "Content-Type": "application/json" })
+    }).subscribe(() => {
+      console.log("crud service post training OK - Entraînement créé");
+    });
   }
 
-  delete(id: number){
-    this.http.delete(environment.apiUrl + "training/" + id).subscribe(response => {
-
-        console.log("crud service delete training OK");
-
-      });
+  delete(id: number) {
+    this.http.delete(environment.apiUrl + "training/" + id).subscribe(() => {
+      console.log("crud service delete training OK");
+    });
   }
 
-  put(data: Training){
+  put(data: Training) {
     const body = JSON.stringify(data);
     this.http.put(environment.apiUrl + "training", body, {
-      headers: new HttpHeaders({
-        "Content-Type": "application/json"
-      })
-    }).subscribe(response => {
-
-        console.log("crud service put training OK");
-
-      });
+      headers: new HttpHeaders({ "Content-Type": "application/json" })
+    }).subscribe(() => {
+      console.log("crud service put training OK");
+    });
   }
 
   getByUser(id: number){
