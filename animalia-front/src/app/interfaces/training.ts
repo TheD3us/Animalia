@@ -1,7 +1,9 @@
 export interface Training{
-    id: number;
-    title: string;
-    durationMinutes: number;
-    equipment: string;
-    level: string;
+    Id: number;
+    Title: string;
+    Description: string;
+    DurationMinutes: number;
+    Equipment: string;
+    Level: string;
+    UserId: number;
 }

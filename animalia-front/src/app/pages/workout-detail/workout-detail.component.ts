@@ -50,21 +50,21 @@ export class WorkoutDetailComponent implements OnInit {
 
           // On mappe les propriétés du backend vers notre interface Training
           this.trainings = res.map(item => ({
-            id: item.Id,
-            title: item.Title,
-            description: item.Description,
-            durationMinutes: item.DurationMinutes,
-            equipment: item.Equipment,
-            level: item.Level
+            Id: item.Id,
+            Title: item.Title,
+            Description: item.Description,
+            DurationMinutes: item.DurationMinutes,
+            Equipment: item.Equipment,
+            Level: item.Level
 
           } as Training));
 
           if (this.trainings.length > 0) {
             const t = this.trainings[0];
             this.workout = {
-              id: t.id.toString(),
-              title: t.title,
-              description: `Durée : ${t.durationMinutes} min | Niveau : ${t.level} | Matériel : ${t.equipment}`,
+              id: t.Id.toString(),
+              title: t.Title,
+              description: `Durée : ${t.DurationMinutes} min | Niveau : ${t.Level} | Matériel : ${t.Equipment}`,
               type: 'training'
             };
           }
@@ -79,22 +79,22 @@ export class WorkoutDetailComponent implements OnInit {
 
   addToCart(training: Training) {
     this.cartService.addItem({
-      id: training.id.toString(),
-      title: training.title,
-      description: `Durée : ${training.durationMinutes} min | Niveau : ${training.level} | Matériel : ${training.equipment}`,
+      id: training.Id.toString(),
+      title: training.Title,
+      description: `Durée : ${training.DurationMinutes} min | Niveau : ${training.Level} | Matériel : ${training.Equipment}`,
       type: 'training',
       addedAt: new Date()
     });
-    alert(`"${training.title}" a été ajouté à votre panier !`);
+    alert(`"${training.Title}" a été ajouté à votre panier !`);
   }
 
   addAllToCart() {
     if (this.trainings && this.trainings.length > 0) {
       this.trainings.forEach(t => {
         this.cartService.addItem({
-          id: t.id.toString(),
-          title: t.title,
-          description: `Durée : ${t.durationMinutes} min | Niveau : ${t.level} | Matériel : ${t.equipment}`,
+          id: t.Id.toString(),
+          title: t.Title,
+          description: `Durée : ${t.DurationMinutes} min | Niveau : ${t.Level} | Matériel : ${t.Equipment}`,
           type: 'training',
           addedAt: new Date()
         });

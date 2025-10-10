@@ -22,20 +22,24 @@ namespace Animalia.Controllers
             return new TrainingDao().Select(id);
         }
 
-        public void Post(Trainings t)
+        [HttpPost]
+        public void Post([FromBody] Trainings t)
         {
             new TrainingDao().Input(t);
         }
 
-        public void Update(Trainings t)
+        [HttpPut]
+        public void Update([FromBody] Trainings t)
         {
             new TrainingDao().Put(t);
         }
 
+        [HttpDelete]
         public void Delete(int id)
         {
             new TrainingDao().Delete(id);
         }
+
 
         [Route("api/training/getuser")]
         public List<Trainings> GetByUser(int id)

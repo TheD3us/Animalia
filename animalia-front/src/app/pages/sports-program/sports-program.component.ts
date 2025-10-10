@@ -124,13 +124,12 @@ export class SportsProgramComponent {
   //});
 
   protected readonly proposalForm = this.fb.group({
-    titre: ['', [Validators.required, Validators.minLength(3)]],
-    //description: ['', [Validators.required, Validators.minLength(10)]],
-
+    title: ['', [Validators.required, Validators.minLength(3)]],
     durationMinutes: [0, [Validators.required, Validators.min(5)]],
     equipment: ['', [Validators.required, Validators.minLength(2)]],
     level: ['', [Validators.required]]
   });
+
 
 
   protected readonly eventForm = this.fb.group({
@@ -148,22 +147,47 @@ export class SportsProgramComponent {
       const data = this.proposalForm.value;
 
       const newTraining: Training = {
-        id: 0, // l’API génère l’ID
-        title: data.titre!,
-        durationMinutes: data.durationMinutes!,
-        equipment: data.equipment!,
-        level: data.level!
+        Id: 0, // l’API génère l’ID
+        Title: data.title!,
+        Description: '',
+        DurationMinutes: data.durationMinutes!,
+        Equipment: data.equipment!,
+        Level: data.level!,
+        UserId: this.userId
       };
 
       this.trainingService.post(newTraining); // le subscribe est dans le service
 
-      // On recharge la liste après un petit délai (si tu veux afficher les trainings)
       setTimeout(() => {
         this.isSubmittingProposal.set(false);
         this.proposalForm.reset();
       }, 500);
     }
   }
+
+  //onSubmitProposal() {
+  //  if (this.proposalForm.valid) {
+  //    this.isSubmittingProposal.set(true);
+  //    const data = this.proposalForm.value;
+
+  //    const newTraining: Training = {
+  //      Id: 0, // l’API génère l’ID
+  //      Title: data.title!,
+  //      Description: '',
+  //      DurationMinutes: data.durationMinutes!,
+  //      Equipment: data.equipment!,
+  //      Level: data.level!,
+  //      UserId: this.userId   
+  //    };
+      
+  //    this.trainingService.post(newTraining);
+
+  //    setTimeout(() => {
+  //      this.isSubmittingProposal.set(false);
+  //      this.proposalForm.reset();
+  //    }, 500);
+  //  }
+  //}
 
 
   onSubmitEvent() {
@@ -180,8 +204,6 @@ export class SportsProgramComponent {
         MaxParticipants: 20
       });
       
-      
-
       // Le .subscribe() est dans le service.
       setTimeout(() => {
         this.isSubmittingEvent.set(false);
