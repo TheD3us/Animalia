@@ -39,11 +39,29 @@ namespace Animalia.Controllers
             new UserDao().Delete(id);
         }
 
+        //[HttpGet]
+        //[Route("api/user/verif")]
+        //public int VerifLoginMdp([FromUri]string login, [FromUri]string mdp)
+        //{
+        //    return new UserDao().VerifLoginMdp(login, mdp);
+        //}
+
         [HttpGet]
         [Route("api/user/verif")]
-        public int VerifLoginMdp([FromUri]string login, [FromUri]string mdp)
+        public Users VerifLoginMdp([FromUri]string login, [FromUri]string mdp)
         {
-            return new UserDao().VerifLoginMdp(login, mdp);
+            Users user = new UserDao().VerifLoginMdp(login, mdp);
+
+           // return user; // renvoie { Id, Email, Prenom, Nom, IsAdmin }
+            return new Users
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Prenom = user.Prenom,
+                Nom = user.Nom,
+                IsAdmin = user.IsAdmin
+            };
+
         }
 
         [HttpGet]

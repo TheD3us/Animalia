@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, fromEvent, merge, Observable, of, timer } from 'rxjs';
 import { debounceTime, switchMap, tap } from 'rxjs/operators';
+import { user } from '../interfaces/user';
 import { UserService } from './user-service';
 
 @Injectable({ providedIn: 'root' })
@@ -9,6 +10,7 @@ export class AuthService {
   private sessionTimer: any;
   private UserId: Observable<number> = of(-1);
   private readonly SESSION_TIMEOUT = 60 * 60 * 1000; // 1 heure en millisecondes
+  private currentUser: user | null = null;
 
   isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
@@ -18,18 +20,20 @@ export class AuthService {
 
   login(credentials: any): Observable<boolean> {
     return this.validateCredentials(credentials).pipe(
-      tap(userId => {
-        this.UserId = of(userId);
-        console.log('UserId:', userId);
-        if (userId != null && userId !== -1) {
+      tap(user => {
+        console.log('User:', user);
+        if (user) {
+          this.currentUser = user;
           this.isLoggedInSubject.next(true);
           this.startSessionTimer();
-          this.saveSession(userId);
+          //sessionStorage.setItem('userId', user.id.toString());
+          //sessionStorage.setItem('isAdmin', user.isAdmin ? 'true' : 'false');
+          this.saveSession(user);
         } else {
           this.isLoggedInSubject.next(false);
         }
       }),
-      switchMap(userId => of(userId != null && userId !== -1))
+      switchMap(user => of(!!user))
     );
   }
 
@@ -39,7 +43,8 @@ export class AuthService {
     this.clearSession();
   }
 
-  private validateCredentials(credentials: any): Observable<number> {
+
+  private validateCredentials(credentials: any): Observable<user> {
     return this.userService.verifLogin(credentials.username, credentials.password);
   }
 
@@ -82,28 +87,39 @@ export class AuthService {
     }
   }
 
-  
-  private saveSession(userId: number) {
+  private saveSession(user: user) {
     sessionStorage.setItem('isLoggedIn', 'true');
     sessionStorage.setItem('loginTime', Date.now().toString());
-    sessionStorage.setItem('userId', userId.toString());
+    sessionStorage.setItem('userId', user.Id.toString());
+    sessionStorage.setItem('isAdmin', user.IsAdmin ? 'true' : 'false');
   }
 
   private clearSession() {
   sessionStorage.removeItem('isLoggedIn');
   sessionStorage.removeItem('loginTime');
   sessionStorage.removeItem('userId');
+  sessionStorage.removeItem('isAdmin');
   }
 
   checkExistingSession() {
     const isLoggedIn = sessionStorage.getItem('isLoggedIn');
     const loginTime = sessionStorage.getItem('loginTime');
     const userId = sessionStorage.getItem('userId');
+    const IsAdmin = sessionStorage.getItem('isAdmin') === 'true';
+
     if (isLoggedIn === 'true' && loginTime && userId) {
       const timeElapsed = Date.now() - parseInt(loginTime);
       if (timeElapsed < this.SESSION_TIMEOUT) {
         this.isLoggedInSubject.next(true);
         this.UserId = of(parseInt(userId));
+        this.currentUser = {
+          Id: parseInt(userId),
+          Email: '',
+          Prenom: '',
+          Nom: '',
+          Password: '',
+          IsAdmin
+        };
         const remainingTime = this.SESSION_TIMEOUT - timeElapsed;
         this.sessionTimer = setTimeout(() => {
           this.logout();
@@ -115,19 +131,16 @@ export class AuthService {
     }
   }
 
-  whoIsLoggedIn(): Observable<number>{
-    if(this.UserId != undefined)
-    {
-      return this.UserId;
-    }
-    else
-    {
-      return of(-1);
-    }
-    
+  whoIsLoggedIn(): user | null {
+    return this.currentUser;
   }
 
   isLoggedIn(): boolean {
     return this.isLoggedInSubject.value;
   }
+
+  isAdmin(): boolean {
+    return sessionStorage.getItem('isAdmin') === 'true';
+  }
+
 }

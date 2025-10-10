@@ -1,9 +1,9 @@
 export interface user{
-    id: number;
-    email: string;
-    password: string;
-    prenom: string;
-    nom: string;
-    isAdmin: boolean;
+    Id: number;
+    Email: string;
+    Password: string;
+    Prenom: string;
+    Nom: string;
+    IsAdmin: boolean;
 
 }

@@ -44,11 +44,29 @@ namespace Animalia.Models
             context.SaveChanges();
         }
 
-        public int VerifLoginMdp(string login, string Mdp)
-        {
-            AnimaliaDbEntities context = new AnimaliaDbEntities();
-            return context.Users.Where(a => a.Email == login && a.Password == Mdp).First().Id;
+        //public int VerifLoginMdp(string login, string Mdp)
+        //{
+        //    AnimaliaDbEntities context = new AnimaliaDbEntities();
+        //    return context.Users.Where(a => a.Email == login && a.Password == Mdp).First().Id;
             
+        //}
+
+
+        public Users VerifLoginMdp(string login, string mdp)
+        {
+            using (AnimaliaDbEntities context = new AnimaliaDbEntities())
+            {
+                Users user = context.Users
+                                  .FirstOrDefault(a => a.Email == login && a.Password == mdp);
+
+                if (user != null)
+                {
+                    // Ne jamais exposer le mot de passe
+                    user.Password = null;
+                }
+
+                return user;
+            }
         }
 
         public List<Events> SelectEventParticipation(int id)

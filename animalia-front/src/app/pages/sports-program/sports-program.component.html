@@ -13,12 +13,26 @@
       <app-program-card [program]="workout"
                         [showFeatures]="false"
                         (cardClick)="onProgramCardClick($event)">
+
       </app-program-card>
+
+
+      <!-- Boutons admin -->
+      <div class="mt-2 text-end" *ngIf="authService.isAdmin()">
+        <!--<button class="btn btn-warning btn-sm me-2" (click)="onEditProgram(+workout.id)">
+          <i class="fa-solid fa-pen"></i> Modifier
+        </button>-->
+        <button class="btn btn-danger btn-sm" (click)="onDeleteProgram(+workout.id)">
+          <i class="fa-solid fa-trash"></i> Supprimer
+        </button>
+      </div>
     </div>
 
   </div>
 
 </section>
+
+<br />
 
 <!-- ====== LISTE DES ÉVÉNEMENTS ====== -->
 <section class="container my-5">
@@ -42,17 +56,27 @@
             <small class="text-muted">{{ evt.Notes }}</small>
           </p>
           <button type="submit"
-                    class="btn btn-primary"
-                    [disabled]=" userId === -1"
-                    (click)="onSubscribeEvent(evt.Id)"
-                    >
-              @if (isSubscribingEvent() && eventClicked == evt.Id) {
-              <span class="spinner-border spinner-border-sm me-2" role="status"></span>
-              } @else {
-              <i class="fa-solid fa-calendar-plus me-2"></i>
-              }
-              {{ isSubscribingEvent() && eventClicked == evt.Id ? 'Inscription...' : 'Inscrire' }}
+                  class="btn btn-primary"
+                  [disabled]=" userId === -1"
+                  (click)="onSubscribeEvent(evt.Id)">
+            @if (isSubscribingEvent() && eventClicked == evt.Id) {
+            <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+            } @else {
+            <i class="fa-solid fa-calendar-plus me-2"></i>
+            }
+            {{ isSubscribingEvent() && eventClicked == evt.Id ? 'Inscription...' : 'Inscrire' }}
+          </button>
+
+          <!-- Boutons admin -->
+          <!--<div *ngIf="authService.isAdmin()" class="mt-2">
+            <button class="btn btn-warning btn-sm me-2" (click)="onEditEvent(evt.Id)">
+              <i class="fa-solid fa-pen"></i> Modifier
             </button>
+            <button class="btn btn-danger btn-sm" (click)="onDeleteEvent(evt.Id)">
+              <i class="fa-solid fa-trash"></i> Supprimer
+            </button>
+          </div>-->
+
         </div>
         <div class="card-footer text-end">
           <span class="badge bg-info">Participants max : {{ evt.MaxParticipants || 'N/A' }}</span>
