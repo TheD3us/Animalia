@@ -59,16 +59,6 @@ export class MyPurchasesComponent implements OnInit {
     }, this.purchasedWorkouts[0].purchaseDate);
   }
 
-  //loadScheduledEvents() {
-  //  this.authService.whoIsLoggedIn().subscribe((userId: number) => {
-  //    if (userId) {
-  //      this.userService.selectEventParticipation(userId).subscribe((events) => {
-  //        this.scheduledEvents = events;
-  //      });
-  //    }
-  //  });
-  //}
-
   loadScheduledEvents() {
     const user = this.authService.whoIsLoggedIn(); // maintenant renvoie User | null
     if (user && user.Id) {
