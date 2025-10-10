@@ -4,6 +4,8 @@ import { RouterModule, Router } from '@angular/router';
 import { PurchaseService, PurchasedWorkout } from '../../services/purchase.service';
 import { AuthService } from '../../services/auth.service';
 import { EventService } from '../../services/event.service';
+import { UserService } from '../../services/user-service';
+import { Event } from '../../interfaces/events';
 
 @Component({
   selector: 'app-my-purchases',
@@ -14,13 +16,14 @@ import { EventService } from '../../services/event.service';
 })
 export class MyPurchasesComponent implements OnInit {
   purchasedWorkouts: PurchasedWorkout[] = [];
+  scheduledEvents: Event[] = [];
  
   isLoggedIn = false;
 
   constructor(
     private purchaseService: PurchaseService,
     private authService: AuthService,
-    private eventService: EventService,
+    private userService: UserService,
     private router: Router
   ) {}
 
@@ -43,6 +46,11 @@ export class MyPurchasesComponent implements OnInit {
     this.router.navigate(['/workout', workoutId]);
   }
 
+  viewEventDetail(eventId: number) {
+    // Naviguer vers la page de détail de l'événement
+    this.router.navigate(['/event', eventId]);
+  }
+
   getLastPurchaseDate(): Date | null {
     if (this.purchasedWorkouts.length === 0) return null;
     
@@ -50,4 +58,14 @@ export class MyPurchasesComponent implements OnInit {
       return workout.purchaseDate > latest ? workout.purchaseDate : latest;
     }, this.purchasedWorkouts[0].purchaseDate);
   }
+
+  loadScheduledEvents() {
+    this.authService.whoIsLoggedIn().subscribe((userId: number) => {
+      if (userId) {
+        this.userService.selectEventParticipation(userId).subscribe((events) => {
+          this.scheduledEvents = events;
+        });
+      }
+    });
+  }  
 }
