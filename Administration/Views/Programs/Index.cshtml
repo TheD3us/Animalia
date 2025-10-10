@@ -1,0 +1,158 @@
+@model IEnumerable<Administration.Models.Entities.ProgramEntity>
+
+@{
+    ViewData["Title"] = "Gestion des Programmes";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="display-4">
+                <i class="fas fa-clipboard-list text-success"></i>
+                Gestion des Programmes
+            </h1>
+            <a asp-action="Create" class="btn btn-success btn-lg">
+                <i class="fas fa-plus"></i>
+                Nouveau Programme
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">
+            <i class="fas fa-list"></i>
+            Liste des Programmes
+        </h5>
+    </div>
+    <div class="card-body">
+        @if (Model.Any())
+        {
+            <div class="row">
+                @foreach (var program in Model)
+                {
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 shadow-sm">
+                            @if (!string.IsNullOrEmpty(program.ImageUrl))
+                            {
+                                <img src="@program.ImageUrl" class="card-img-top" alt="@program.Title" style="height: 200px; object-fit: cover;">
+                            }
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">@program.Title</h5>
+                                
+                                @if (!string.IsNullOrEmpty(program.Summary))
+                                {
+                                    <p class="card-text text-muted">
+                                        @(program.Summary.Length > 100 ? program.Summary.Substring(0, 100) + "..." : program.Summary)
+                                    </p>
+                                }
+
+                                <div class="mb-2">
+                                    @if (!string.IsNullOrEmpty(program.Difficulty))
+                                    {
+                                        <span class="badge bg-info me-2">@program.Difficulty</span>
+                                    }
+                                    <span class="badge bg-success">@program.Price.ToString("C")</span>
+                                </div>
+
+                                @if (program.Trainings?.Any() == true)
+                                {
+                                    <div class="mb-3">
+                                        <h6 class="text-primary">
+                                            <i class="fas fa-dumbbell"></i>
+                                            Entrainements inclus (@program.Trainings.Count())
+                                        </h6>
+                                        <div class="training-list">
+                                            @foreach (var training in program.Trainings.Take(3))
+                                            {
+                                                <div class="d-flex align-items-center mb-1">
+                                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                                    <small>
+                                                        <strong>@training.Title</strong>
+                                                        @if (training.DurationMinutes > 0)
+                                                        {
+                                                            <span class="text-muted">(@training.DurationMinutes min)</span>
+                                                        }
+                                                    </small>
+                                                </div>
+                                            }
+                                            @if (program.Trainings.Count() > 3)
+                                            {
+                                                <small class="text-muted">
+                                                    <i class="fas fa-ellipsis-h"></i>
+                                                    et @(program.Trainings.Count() - 3) autre(s)...
+                                                </small>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="mb-3">
+                                        <small class="text-muted">
+                                            <i class="fas fa-info-circle"></i>
+                                            Aucun entrainement associé
+                                        </small>
+                                    </div>
+                                }
+
+                                <div class="mt-auto">
+                                    <div class="btn-group w-100" role="group">
+                                        <a asp-action="Details" asp-route-id="@program.Id" class="btn btn-outline-info btn-sm" title="Détails">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a asp-action="Edit" asp-route-id="@program.Id" class="btn btn-outline-primary btn-sm" title="Modifier">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <form asp-action="DeleteConfirmed" asp-antiforgery="true" method="post" class="d-inline">
+                                            <input type="hidden" name="id" value="@program.Id" />
+                                            <button type="submit" class="btn btn-outline-danger btn-sm" title="Supprimer">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5">
+                <i class="fas fa-clipboard-list fa-3x text-muted mb-3"></i>
+                <h5 class="text-muted">Aucun programme trouvé</h5>
+                <p class="text-muted">Commencez par créer votre premier programme !</p>
+                <a asp-action="Create" class="btn btn-success">
+                    <i class="fas fa-plus"></i>
+                    Créer un programme
+                </a>
+            </div>
+        }
+    </div>
+    <div class="card-footer">
+        <div class="row">
+            <div class="col-md-6">
+                <small class="text-muted">
+                    <i class="fas fa-info-circle"></i>
+                    Total: <strong>@Model.Count()</strong> programme(s)
+                </small>
+            </div>
+            <div class="col-md-6 text-end">
+                <small class="text-muted">
+                    <i class="fas fa-dumbbell"></i>
+                    Total entrainements: <strong>@Model.SelectMany(p => p.Trainings ?? new List<Administration.Models.Entities.Training>()).Count()</strong>
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.training-list {
+    max-height: 120px;
+    overflow-y: auto;
+}
+</style>
