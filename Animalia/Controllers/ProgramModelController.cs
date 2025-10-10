@@ -41,11 +41,5 @@ namespace Animalia.Controllers
         {
             new ProgramModelDao().Delete(id);
         }
-
-        [Route("api/programmodel/trainings/{id:int}")]
-        public List<Trainings> GetTrainingByProgram(int id)
-        {
-            return new ProgramModelDao().GetTrainingByProgram(id);
-        }
     }
 }

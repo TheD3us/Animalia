@@ -12,8 +12,6 @@
         <EntityTypeShape EntityType="AnimaliaDbModel.Users" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="AnimaliaDbModel.FK_Events_User" ManuallyRouted="false" />
         <AssociationConnector Association="AnimaliaDbModel.ProgramTrainings" ManuallyRouted="false" />
-        <AssociationConnector Association="AnimaliaDbModel.FK_Trainings_User" />
-        <AssociationConnector Association="AnimaliaDbModel.EventUser" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

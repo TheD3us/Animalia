@@ -41,6 +41,5 @@ namespace Animalia.Models
             context.Events.Remove(evt);
             context.SaveChanges();
         }
-
     }
 }
