@@ -38,14 +38,19 @@ export class SportsProgramComponent {
   ngOnInit(): void {
     this.loadEvents();
     this.loadProgramModels();
-    this.authService.whoIsLoggedIn().subscribe(res => {
-      if(res != undefined)
-      {
-        this.userId = res;
-      }
+    //this.authService.whoIsLoggedIn().subscribe(res => {
+    //  if(res != undefined)
+    //  {
+    //    this.userId = res;
+    //  }
       
-      console.log("Id de l'user qui poste l'envent : ", res);
-    })
+    //  console.log("Id de l'user qui poste l'envent : ", res);
+    //})
+    const user = this.authService.whoIsLoggedIn();
+    if (user) {
+      this.userId = user.Id;
+      console.log("Id de l'user qui poste l'event :", this.userId);
+    }
   }
   programCards: ProgramCard[] = [];
 
