@@ -1,0 +1,73 @@
+@{
+    ViewData["Title"] = "Accès refusé";
+    Layout = "_LoginLayout";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-danger text-white text-center">
+                <h3 class="mb-0">
+                    <i class="fas fa-shield-alt"></i>
+                    Accès refusé
+                </h3>
+            </div>
+            <div class="card-body text-center">
+                <div class="mb-4">
+                    <i class="fas fa-user-shield fa-5x text-danger"></i>
+                </div>
+                
+                <h4 class="text-danger mb-3">Droits insuffisants</h4>
+                
+                <div class="alert alert-warning">
+                    <h6><i class="fas fa-exclamation-triangle"></i> Information</h6>
+                    <p class="mb-0">
+                        Cette interface d'administration est réservée aux <strong>administrateurs</strong> uniquement.
+                        Votre compte ne dispose pas des droits nécessaires pour accéder à cette section.
+                    </p>
+                </div>
+
+                @if (ViewBag.CurrentUserEmail != null)
+                {
+                    <div class="alert alert-info">
+                        <h6><i class="fas fa-user"></i> Compte connecté</h6>
+                        <p class="mb-0">
+                            <strong>Email:</strong> @ViewBag.CurrentUserEmail<br>
+                            <strong>Statut:</strong> Utilisateur standard (non-administrateur)
+                        </p>
+                    </div>
+                }
+
+                <div class="mb-4">
+                    <h6>Actions possibles :</h6>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-sign-out-alt text-warning"></i> Vous déconnecter et vous reconnecter avec un compte administrateur</li>
+                        <li><i class="fas fa-envelope text-info"></i> Contacter un administrateur pour obtenir les droits nécessaires</li>
+                        <li><i class="fas fa-home text-success"></i> Retourner à l'application principale Animalia</li>
+                    </ul>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <a href="@Url.Action("Logout", "Auth")" class="btn btn-warning">
+                        <i class="fas fa-sign-out-alt"></i> Se déconnecter
+                    </a>
+                    <a href="@Url.Action("Login", "Auth")" class="btn btn-primary">
+                        <i class="fas fa-sign-in-alt"></i> Se connecter avec un autre compte
+                    </a>
+                    <a href="/" class="btn btn-outline-secondary">
+                        <i class="fas fa-home"></i> Retourner à Animalia
+                    </a>
+                </div>
+
+                <hr class="my-4">
+                
+                <div class="text-muted">
+                    <small>
+                        <i class="fas fa-info-circle"></i>
+                        Pour obtenir les droits d'administration, contactez l'équipe technique avec votre adresse email.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
