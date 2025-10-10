@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environement/environment';
 import { user } from '../interfaces/user';
 import { Observable } from 'rxjs';
+import { Event } from '../interfaces/events';
+
 
 @Injectable({
   providedIn: 'root'

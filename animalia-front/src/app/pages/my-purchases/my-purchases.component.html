@@ -133,27 +133,27 @@
             <div class="card-header">
               <h5 class="mb-0">
                 <i class="fa-solid fa-check-circle text-success me-2"></i>
-                Entraînements achetés ({{ purchasedWorkouts.length }})
+                Evènements prévus ({{ scheduledEvents.length }})
               </h5>
             </div>
             <div class="card-body">
-              @for (workout of purchasedWorkouts; track workout.id; let i = $index) {
+              @for (event of scheduledEvents; track event.Id; let i = $index) {
                 <div class="d-flex align-items-center border-bottom py-3 workout-item" 
-                     [class.border-bottom-0]="i === purchasedWorkouts.length - 1"
-                     (click)="viewWorkoutDetail(workout.id)"
+                     [class.border-bottom-0]="i === scheduledEvents.length - 1"
+                     (click)="viewEventDetail(event.Id)"
                      style="cursor: pointer;">
                   <div class="workout-icon me-3">
                     <i class="fa-solid fa-play-circle fa-2x text-primary"></i>
                   </div>
                   <div class="flex-grow-1">
-                    <h6 class="mb-1">{{ workout.title }}</h6>
-                    <p class="text-muted mb-1 small">{{ workout.description }}</p>
+                    <h6 class="mb-1">{{ event.Title }}</h6>
+                    <p class="text-muted mb-1 small">{{ event.Location }}</p>
                     <div class="d-flex justify-content-between align-items-center">
                       <small class="text-success">
                         <i class="fa-solid fa-calendar me-1"></i>
-                        Acheté le {{ workout.purchaseDate | date:'short' }}
+                        Prévu le {{ event.DateTime| date:'short' }}
                       </small>
-                      <span class="badge bg-primary">{{ workout.price }}</span>
+                      <span class="badge bg-primary">{{ event.MaxParticipants }}</span>
                     </div>
                   </div>
                   <i class="fa-solid fa-chevron-right text-muted ms-2"></i>
@@ -163,48 +163,7 @@
           </div>
         </div>
         
-        <div class="col-lg-4">
-          <div class="card">
-            <div class="card-header">
-              <h5 class="mb-0">
-                <i class="fa-solid fa-chart-line me-2"></i>
-                Statistiques
-              </h5>
-            </div>
-            <div class="card-body">
-              <div class="d-flex justify-content-between mb-3">
-                <span>Total d'entraînements:</span>
-                <span class="fw-bold">{{ purchasedWorkouts.length }}</span>
-              </div>
-              <div class="d-flex justify-content-between mb-3">
-                <span>Dernier achat:</span>
-                <span class="fw-bold">{{ getLastPurchaseDate() | date:'short' }}</span>
-              </div>
-              <hr>
-              <div class="d-grid">
-                <a routerLink="/programs" class="btn btn-outline-primary">
-                  <i class="fa-solid fa-plus me-2"></i>
-                  Acheter plus d'entraînements
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div class="card mt-3">
-            <div class="card-header">
-              <h6 class="mb-0">
-                <i class="fa-solid fa-info-circle me-2"></i>
-                Accès complet
-              </h6>
-            </div>
-            <div class="card-body">
-              <p class="small text-muted mb-0">
-                Vous avez accès au contenu complet de vos entraînements achetés : 
-                échauffement, exercices détaillés, étirements et conseils.
-              </p>
-            </div>
-          </div>
-        </div>
+        
       </div>
     }
   }
