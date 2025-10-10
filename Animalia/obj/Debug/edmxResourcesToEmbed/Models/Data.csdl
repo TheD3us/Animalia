@@ -12,7 +12,6 @@
     <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="MaxParticipants" Type="Int32" />
     <NavigationProperty Name="Users" Relationship="Self.FK_Events_User" FromRole="Events" ToRole="Users" />
-    <NavigationProperty Name="Users1" Relationship="AnimaliaDbModel.EventUser" FromRole="Events" ToRole="Users" />
   </EntityType>
   <EntityType Name="ProgramModels">
     <Key>
@@ -46,9 +45,6 @@
     <Property Name="Equipment" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="Level" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="ProgramModels" Relationship="Self.ProgramTrainings" FromRole="Trainings" ToRole="ProgramModels" />
-    <Property Name="Description" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
-    <Property Name="UserId" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Users" Relationship="AnimaliaDbModel.FK_Trainings_User" FromRole="Trainings" ToRole="Users" />
   </EntityType>
   <EntityType Name="Users">
     <Key>
@@ -61,8 +57,6 @@
     <Property Name="Nom" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Events" Relationship="Self.FK_Events_User" FromRole="Users" ToRole="Events" />
-    <NavigationProperty Name="Trainings" Relationship="AnimaliaDbModel.FK_Trainings_User" FromRole="Users" ToRole="Trainings" />
-    <NavigationProperty Name="Events1" Relationship="AnimaliaDbModel.EventUser" FromRole="Users" ToRole="Events" />
   </EntityType>
   <Association Name="FK_Events_User">
     <End Role="Users" Type="Self.Users" Multiplicity="1">
@@ -96,31 +90,5 @@
       <End Role="ProgramModels" EntitySet="ProgramModels" />
       <End Role="Trainings" EntitySet="Trainings" />
     </AssociationSet>
-    <AssociationSet Name="FK_Trainings_User" Association="AnimaliaDbModel.FK_Trainings_User">
-      <End Role="Users" EntitySet="Users" />
-      <End Role="Trainings" EntitySet="Trainings" />
-    </AssociationSet>
-    <AssociationSet Name="EventUser" Association="AnimaliaDbModel.EventUser">
-      <End Role="Events" EntitySet="Events" />
-      <End Role="Users" EntitySet="Users" />
-    </AssociationSet>
   </EntityContainer>
-  <Association Name="FK_Trainings_User">
-    <End Type="AnimaliaDbModel.Users" Role="Users" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Type="AnimaliaDbModel.Trainings" Role="Trainings" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Users">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Trainings">
-        <PropertyRef Name="UserId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="EventUser">
-    <End Type="AnimaliaDbModel.Events" Role="Events" Multiplicity="*" />
-    <End Type="AnimaliaDbModel.Users" Role="Users" Multiplicity="*" />
-  </Association>
 </Schema>

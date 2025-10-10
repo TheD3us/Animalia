@@ -47,10 +47,13 @@ export class LoginComponent implements OnInit {
       const formData = this.loginForm.value;
       console.log('Tentative de connexion:', formData);
       
-      this.authService.login(formData).subscribe(success => {
+      setTimeout(() => {
+        const success = this.authService.login(formData);
         this.isLoading.set(false);
+        
         if (success) {
           const hasItemsInCart = this.cartService.getCount() > 0;
+          
           if (hasItemsInCart) {
             this.router.navigate(['/cart']);
           } else {
@@ -59,7 +62,7 @@ export class LoginComponent implements OnInit {
         } else {
           this.error.set('Nom d\'utilisateur ou mot de passe incorrect');
         }
-      });
+      }, 2000);
     } else {
       this.error.set('Veuillez remplir tous les champs correctement');
     }

@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environement/environment';
 import { Observable } from 'rxjs';
 import { ProgramModel } from '../interfaces/program-models';
-import { Training } from '../interfaces/training';
 
 
 @Injectable({
@@ -48,10 +47,6 @@ export class ProgramModelService {
     }).subscribe(response => {
       console.log("crud service put programmodel OK");
     });
-  }
-
-  getTrainingByProgram(id: number): Observable<Training[]>{
-    return this.http.get<Training[]>(environment.apiUrl + "programmodel/trainings/" + id)
   }
 }
 ;

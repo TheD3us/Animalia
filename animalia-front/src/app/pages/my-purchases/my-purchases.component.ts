@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { PurchaseService, PurchasedWorkout } from '../../services/purchase.service';
 import { AuthService } from '../../services/auth.service';
-import { EventService } from '../../services/event.service';
 
 @Component({
   selector: 'app-my-purchases',
@@ -14,13 +13,11 @@ import { EventService } from '../../services/event.service';
 })
 export class MyPurchasesComponent implements OnInit {
   purchasedWorkouts: PurchasedWorkout[] = [];
- 
   isLoggedIn = false;
 
   constructor(
     private purchaseService: PurchaseService,
     private authService: AuthService,
-    private eventService: EventService,
     private router: Router
   ) {}
 

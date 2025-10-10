@@ -1,7 +1,6 @@
 <div class="container my-5">
-  <ng-container *ngIf="trainings && trainings.length > 0; else notFound">
-
-    <!-- En-tête du programme -->
+  @if (workout) {
+    <!-- En-tête de l'entraînement -->
     <div class="row mb-4">
       <div class="col-lg-8">
         <div class="d-flex align-items-center mb-3">
@@ -9,78 +8,207 @@
             <i class="fa-solid fa-arrow-left me-2"></i>
             Retour
           </button>
-
-          <span *ngIf="isPurchased; else preview" class="badge bg-success">
-            <i class="fa-solid fa-check me-1"></i>
-            Acheté
-          </span>
-          <ng-template #preview>
+          @if (isPurchased) {
+            <span class="badge bg-success">
+              <i class="fa-solid fa-check me-1"></i>
+              Acheté
+            </span>
+          } @else {
             <span class="badge bg-warning">
               <i class="fa-solid fa-lock me-1"></i>
               Aperçu limité
             </span>
-          </ng-template>
+          }
         </div>
-
-        <h1 class="display-6 mb-3">Programme - {{ trainings.length }} entraînement(s)</h1>
-        <p class="lead text-muted">
-          Retrouvez ci-dessous la liste des entraînements inclus dans ce programme.
-        </p>
-      </div>
-
-      <!-- Bouton "Débloquez le contenu complet" -->
-      <div class="col-lg-4" *ngIf="!isPurchased">
-        <div class="card border-primary">
-          <div class="card-header bg-primary text-white text-center">
-            <h5 class="mb-0">
-              <i class="fa-solid fa-crown me-2"></i>
-              Débloquez le contenu complet
-            </h5>
+        
+        <h1 class="display-6 mb-3">{{ workout.title }}</h1>
+        <p class="lead text-muted">{{ workout.description }}</p>
+        
+        <!-- Informations générales -->
+        <div class="row g-3 mb-4">
+          <div class="col-md-4">
+            <div class="d-flex align-items-center">
+              <i class="fa-solid fa-clock text-primary me-2"></i>
+              <span><strong>Durée:</strong> {{ workoutContent.duree }}</span>
+            </div>
           </div>
-          <div class="card-body text-center">
-            <p class="card-text">Accédez aux exercices détaillés, conseils et bien plus !</p>
-            <button class="btn btn-success btn-lg w-100" (click)="addAllToCart()">
-              <i class="fa-solid fa-cart-plus me-2"></i>
-              Ajouter tout le programme ({{ trainings.length }} entraînements)
-            </button>
+          <div class="col-md-4">
+            <div class="d-flex align-items-center">
+              <i class="fa-solid fa-signal text-primary me-2"></i>
+              <span><strong>Difficulté:</strong> {{ workoutContent.difficulte }}</span>
+            </div>
+          </div>
+          <div class="col-md-4">
+            @if (!isPurchased) {
+              <div class="d-flex align-items-center">
+                <i class="fa-solid fa-euro-sign text-primary me-2"></i>
+                <span><strong>Prix:</strong> {{ workoutPrice }}</span>
+              </div>
+            }
           </div>
         </div>
       </div>
-
+      
+      <div class="col-lg-4">
+        @if (!isPurchased) {
+          <div class="card border-primary">
+            <div class="card-header bg-primary text-white text-center">
+              <h5 class="mb-0">
+                <i class="fa-solid fa-crown me-2"></i>
+                Débloquez le contenu complet
+              </h5>
+            </div>
+            <div class="card-body text-center">
+              <p class="card-text">Accédez aux exercices détaillés, conseils et bien plus !</p>
+              <button class="btn btn-success btn-lg w-100" (click)="addToCart()">
+                <i class="fa-solid fa-cart-plus me-2"></i>
+                Ajouter au panier - {{ workoutPrice }}
+              </button>
+            </div>
+          </div>
+        }
+      </div>
     </div>
 
-    <!-- Liste des trainings -->
-    <div class="row">
-      <div class="col-md-6 mb-4" *ngFor="let training of trainings">
-        <div class="card h-100 shadow-sm">
-          <div class="card-body">
-            <h5 class="card-title">{{ training.title }}</h5>
-            <ul class="list-unstyled mb-3">
-              <li><i class="fa-solid fa-clock text-primary me-2"></i> Durée : {{ training.durationMinutes }} min</li>
-              <li><i class="fa-solid fa-signal text-primary me-2"></i> Niveau : {{ training.level }}</li>
-              <li><i class="fa-solid fa-tools text-primary me-2"></i> Matériel : {{ training.equipment }}</li>
-            </ul>
-            <button class="btn btn-outline-success w-100" (click)="addToCart(training)">
-              <i class="fa-solid fa-cart-plus me-2"></i>
-              Ajouter "{{ training.title }}" au panier
-            </button>
-          </div>
+    <!-- Matériel nécessaire -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <h4 class="mb-0">
+          <i class="fa-solid fa-tools me-2"></i>
+          Matériel nécessaire
+        </h4>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          @for (item of workoutContent.materiel; track item) {
+            <div class="col-md-6 mb-2">
+              <i class="fa-solid fa-check text-success me-2"></i>
+              {{ item }}
+            </div>
+          }
         </div>
       </div>
     </div>
 
-  </ng-container>
+    <!-- Échauffement -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <h4 class="mb-0">
+          <i class="fa-solid fa-fire me-2"></i>
+          Échauffement
+        </h4>
+      </div>
+      <div class="card-body">
+        @if (isPurchased) {
+          <ol class="list-group list-group-numbered list-group-flush">
+            @for (step of workoutContent.echauffement; track step) {
+              <li class="list-group-item border-0 px-0">{{ step }}</li>
+            }
+          </ol>
+        } @else {
+          <div class="text-muted">
+            <p><i class="fa-solid fa-eye me-2"></i> Aperçu limité:</p>
+            <ol>
+              <li>{{ workoutContent.echauffement[0] || 'Échauffement général' }}</li>
+              <li class="text-muted">
+                <i class="fa-solid fa-lock me-1"></i>
+                Contenu complet disponible après achat...
+              </li>
+            </ol>
+          </div>
+        }
+      </div>
+    </div>
 
-  <!-- Template si aucun entraînement trouvé -->
-  <ng-template #notFound>
+    <!-- Exercices principaux -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <h4 class="mb-0">
+          <i class="fa-solid fa-dumbbell me-2"></i>
+          Exercices principaux
+        </h4>
+      </div>
+      <div class="card-body">
+        @if (isPurchased) {
+          <ol class="list-group list-group-numbered list-group-flush">
+            @for (exercise of workoutContent.exercices; track exercise) {
+              <li class="list-group-item border-0 px-0">{{ exercise }}</li>
+            }
+          </ol>
+        } @else {
+          <div class="text-muted">
+            <p><i class="fa-solid fa-eye me-2"></i> Aperçu limité:</p>
+            <ol>
+              <li>{{ workoutContent.exercices[0] || 'Exercice principal avec votre chien' }}</li>
+              <li class="text-muted">
+                <i class="fa-solid fa-lock me-1"></i>
+                + {{ (workoutContent.exercices.length - 1) || '3' }} exercices supplémentaires...
+              </li>
+            </ol>
+            <div class="alert alert-info mt-3">
+              <i class="fa-solid fa-info-circle me-2"></i>
+              <strong>Contenu complet inclut :</strong> Instructions détaillées, variations d'exercices, conseils de sécurité et adaptations selon le niveau.
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Étirements -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <h4 class="mb-0">
+          <i class="fa-solid fa-spa me-2"></i>
+          Retour au calme & Étirements
+        </h4>
+      </div>
+      <div class="card-body">
+        @if (isPurchased) {
+          <ol class="list-group list-group-numbered list-group-flush">
+            @for (stretch of workoutContent.etirements; track stretch) {
+              <li class="list-group-item border-0 px-0">{{ stretch }}</li>
+            }
+          </ol>
+        } @else {
+          <div class="text-muted">
+            <p><i class="fa-solid fa-eye me-2"></i> Aperçu limité:</p>
+            <ol>
+              <li>{{ workoutContent.etirements[0] || 'Étirements de base' }}</li>
+              <li class="text-muted">
+                <i class="fa-solid fa-lock me-1"></i>
+                Séquence complète d'étirements disponible après achat...
+              </li>
+            </ol>
+          </div>
+        }
+      </div>
+    </div>
+
+    @if (!isPurchased) {
+      <!-- Call to action final -->
+      <div class="card border-success">
+        <div class="card-body text-center">
+          <h5 class="card-title text-success">
+            <i class="fa-solid fa-star me-2"></i>
+            Prêt à commencer cet entraînement ?
+          </h5>
+          <p class="card-text">Débloquez le contenu complet et entraînez-vous avec votre chien dès maintenant !</p>
+          <button class="btn btn-success btn-lg" (click)="addToCart()">
+            <i class="fa-solid fa-cart-plus me-2"></i>
+            Ajouter au panier - {{ workoutPrice }}
+          </button>
+        </div>
+      </div>
+    }
+  } @else {
+    <!-- État de chargement ou erreur -->
     <div class="text-center py-5">
       <i class="fa-solid fa-exclamation-triangle fa-3x text-muted mb-3"></i>
-      <h4 class="text-muted">Aucun entraînement trouvé pour ce programme</h4>
+      <h4 class="text-muted">Entraînement non trouvé</h4>
       <a routerLink="/programs" class="btn btn-primary">
         <i class="fa-solid fa-arrow-left me-2"></i>
-        Retour aux programmes
+        Retour aux entraînements
       </a>
     </div>
-  </ng-template>
+  }
 </div>
-
