@@ -1,60 +1,57 @@
 <div class="card h-100 shadow-sm" [class]="'border-' + (program().buttonClass?.replace('btn-', '') || '')">
   @if (program().image) {
-    <img 
-      [src]="program().image" 
-      class="card-img-top" 
-      [alt]="program().title">
+  <img [src]="'assets/images/' + program().image"
+       class="card-img-top"
+       [alt]="program().title">
   }
-  
+
   <div class="card-body d-flex flex-column">
     <h5 class="card-title">
       @if (program().buttonIcon) {
-        <i [class]="program().buttonIcon + ' me-2'"></i>
+      <i [class]="program().buttonIcon + ' me-2'"></i>
       }
       {{ program().title }}
     </h5>
-    
+
     <p class="card-text flex-grow-1">{{ program().description }}</p>
-    
+
     <!-- Prix si disponible -->
     @if (program().price) {
-      <p class="fw-bold" [class]="'text-' + (program().buttonClass?.replace('btn-', '') || 'primary')">
-        {{ program().price }}
-      </p>
+    <p class="fw-bold" [class]="'text-' + (program().buttonClass?.replace('btn-', '') || 'primary')">
+      {{ program().price }}
+    </p>
     }
-    
+
     <!-- Fonctionnalités/Arguments -->
     @if (showFeatures() && program().features) {
-      <ul class="list-unstyled">
-        @for (feature of program().features; track feature) {
-          <li class="mb-1">
-            <img class="navbar-toggler-icon me-2" src="assets/images/verifier.png" alt="✓">
-            {{ feature }}
-          </li>
-        }
-      </ul>
+    <ul class="list-unstyled">
+      @for (feature of program().features; track feature) {
+      <li class="mb-1">
+        <i class="fa-solid fa-check text-success me-2"></i>
+        {{ feature }}
+      </li>
+      }
+    </ul>
     }
-    
-    <button 
-      type="button" 
-      [class]="'btn w-100 ' + (program().buttonClass || 'btn-primary')"
-      (click)="onCardClick()">
+
+    <button type="button"
+            [class]="'btn w-100 ' + (program().buttonClass || 'btn-primary')"
+            (click)="onCardClick()">
       @if (program().buttonIcon) {
-        <i [class]="program().buttonIcon + ' me-2'"></i>
+      <i [class]="program().buttonIcon + ' me-2'"></i>
       }
       {{ program().buttonText || 'Découvrir' }}
     </button>
-    
+
     <!-- Bouton Ajouter au panier pour les entraînements individuels -->
     @if (program().type === 'workout') {
-      <button 
-        type="button" 
-        class="btn btn-outline-warning w-100 mt-2"
-        (click)="onAddToCart()"
-        title="Ajouter cet entraînement au panier">
-        <i class="fa-solid fa-cart-plus me-2"></i>
-        Ajouter au panier
-      </button>
+    <button type="button"
+            class="btn btn-outline-warning w-100 mt-2"
+            (click)="onAddToCart()"
+            title="Ajouter cet entraînement au panier">
+      <i class="fa-solid fa-cart-plus me-2"></i>
+      Ajouter au panier
+    </button>
     }
   </div>
 </div>

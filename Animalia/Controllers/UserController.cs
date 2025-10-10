@@ -22,11 +22,13 @@ namespace Animalia.Controllers
             return new UserDao().Select(id);
         }
 
+        [HttpPost]
         public void Post(Users u)
         {
             new UserDao().Input(u);
         }
 
+        [HttpPut]
         public void Update(Users u)
         {
             new UserDao().Put(u);
@@ -49,6 +51,13 @@ namespace Animalia.Controllers
         public List<Events> SelectEventParticipation(int id)
         {
             return new UserDao().SelectEventParticipation(id);
+        }
+
+        [HttpPost]
+        [Route("api/user/subscribe/{idUser}/events/{idEvent}")]
+        public void Subscribe(int idUser, int idEvent)
+        {
+            new UserDao().EventSubscription(idUser, idEvent);
         }
     }
 }

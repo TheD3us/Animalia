@@ -5,6 +5,7 @@ import { ProgramModelService } from '../../services/program-model';
 import { Testimonial } from '../../interfaces/testimonial';
 import { TestimonialService } from '../../services/testimonial-service';
 import { ProgramModel } from '../../interfaces/program-models';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -16,11 +17,13 @@ import { ProgramModel } from '../../interfaces/program-models';
 })
 export class HomeComponent {
   ListProgramCard: ProgramCard[] = [];
+
     // Avis clients pour le carousel
   protected readonly testimonials: CarouselItem[] = [];
 
   constructor(private programService: ProgramModelService, 
-              private testimonialService : TestimonialService
+    private testimonialService: TestimonialService,
+    private router: Router
             ){}
 
   ngOnInit(){
@@ -108,6 +111,7 @@ export class HomeComponent {
   // Gestionnaire pour les clics sur les cartes de programmes
   onProgramClick(programId: string) {
     console.log('Programme sélectionné depuis la page d\'accueil:', programId);
+    this.router.navigate(['/workout', programId]);
     // Logique de navigation vers la page détaillée du programme
   }
 }
