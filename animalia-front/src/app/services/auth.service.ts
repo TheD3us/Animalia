@@ -16,16 +16,21 @@ export class AuthService {
     this.initActivityMonitoring();
   }
 
-  login(credentials: any): boolean {
-    this.UserId = this.validateCredentials(credentials);
-    
-    if (this.UserId != null) {
-      this.isLoggedInSubject.next(true);
-      this.startSessionTimer();
-      this.saveSession();
-      return true;
-    }
-    return false;
+  login(credentials: any): Observable<boolean> {
+    return this.validateCredentials(credentials).pipe(
+      tap(userId => {
+        this.UserId = of(userId);
+        console.log('UserId:', userId);
+        if (userId != null && userId !== -1) {
+          this.isLoggedInSubject.next(true);
+          this.startSessionTimer();
+          this.saveSession(userId);
+        } else {
+          this.isLoggedInSubject.next(false);
+        }
+      }),
+      switchMap(userId => of(userId != null && userId !== -1))
+    );
   }
 
   logout() {
@@ -77,25 +82,28 @@ export class AuthService {
     }
   }
 
-  private saveSession() {
+  
+  private saveSession(userId: number) {
     sessionStorage.setItem('isLoggedIn', 'true');
     sessionStorage.setItem('loginTime', Date.now().toString());
+    sessionStorage.setItem('userId', userId.toString());
   }
 
   private clearSession() {
-    sessionStorage.removeItem('isLoggedIn');
-    sessionStorage.removeItem('loginTime');
+  sessionStorage.removeItem('isLoggedIn');
+  sessionStorage.removeItem('loginTime');
+  sessionStorage.removeItem('userId');
   }
 
   checkExistingSession() {
     const isLoggedIn = sessionStorage.getItem('isLoggedIn');
     const loginTime = sessionStorage.getItem('loginTime');
-    
-    if (isLoggedIn === 'true' && loginTime) {
+    const userId = sessionStorage.getItem('userId');
+    if (isLoggedIn === 'true' && loginTime && userId) {
       const timeElapsed = Date.now() - parseInt(loginTime);
-      
       if (timeElapsed < this.SESSION_TIMEOUT) {
         this.isLoggedInSubject.next(true);
+        this.UserId = of(parseInt(userId));
         const remainingTime = this.SESSION_TIMEOUT - timeElapsed;
         this.sessionTimer = setTimeout(() => {
           this.logout();
