@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Animalia.Models
 {
@@ -54,6 +56,16 @@ namespace Animalia.Models
             AnimaliaDbEntities context = new AnimaliaDbEntities();
 
             return context.Users.Where(u => u.Id == id).SelectMany(u => u.Events1).ToList();
+        }
+
+        public void EventSubscription(int idUser, int idEvent)
+        {
+            AnimaliaDbEntities context = new AnimaliaDbEntities();
+            var user = context.Users.Include(u => u.Events1).First(u => u.Id == idUser);
+            var ev = context.Events.First(e => e.Id == idEvent);
+
+            user.Events1.Add(ev);
+            context.SaveChanges();
         }
     }
 }

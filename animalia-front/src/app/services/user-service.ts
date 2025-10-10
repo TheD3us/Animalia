@@ -63,5 +63,17 @@ export class UserService {
   selectEventParticipation(id: number): Observable<Event[]>{
     return this.http.get<Event[]>(environment.apiUrl + "user/events/" + id)
   }
+
+  eventSubscription(userId: number, eventId: number){
+    this.http.post(`${environment.apiUrl}user/subscribe/`+ userId + "/events/" + eventId, {}, {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json"
+      })
+    }).subscribe(response => {
+      console.log("crud service post event subscription OK");
+    });
+  }
+
+
 }
 

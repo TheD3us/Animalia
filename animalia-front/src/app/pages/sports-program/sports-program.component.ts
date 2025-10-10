@@ -8,6 +8,7 @@ import { DatePipe, NgIf, NgFor, NgForOf } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { TrainingService } from '../../services/training-service';
 import { Training } from '../../interfaces/training';
+import { UserService } from '../../services/user-service';
 
 
 @Component({
@@ -23,6 +24,8 @@ export class SportsProgramComponent {
   constructor(
     private eventService: EventService,
     private programService: ProgramModelService,
+    private trainingService: TrainingService,
+    private userService : UserService,
     private authService: AuthService
   ) { }
 
@@ -30,6 +33,7 @@ export class SportsProgramComponent {
   events: Event[] = [];
   programModels: any[] = [];
   userId: number = -1;
+  eventClicked: number = -1;
 
   ngOnInit(): void {
     this.loadEvents();
@@ -196,6 +200,7 @@ export class SportsProgramComponent {
 
   protected readonly isSubmittingProposal = signal(false);
   protected readonly isSubmittingEvent = signal(false);
+  protected readonly isSubscribingEvent = signal(false);
 
   onSubmitProposal() {
     if (this.proposalForm.valid) {
@@ -214,7 +219,7 @@ export class SportsProgramComponent {
 
       };
 
-      this.programService.post(newProgramModel); // le subscribe est dans le service
+      this.trainingService.post(newTraining); // le subscribe est dans le service
 
       setTimeout(() => {
         this.loadProgramModels();
@@ -224,6 +229,16 @@ export class SportsProgramComponent {
     }
   }
 
+  onSubscribeEvent(eventId: number) {
+    this.eventClicked = eventId;
+    this.isSubscribingEvent.set(true);
+    setTimeout(() => {
+      this.isSubscribingEvent.set(false);
+    }, 5000);
+
+    this.userService.eventSubscription(this.userId, eventId) // le subscribe est dans le service
+
+  }
 
   onSubmitEvent() {
     if (this.eventForm.valid) {

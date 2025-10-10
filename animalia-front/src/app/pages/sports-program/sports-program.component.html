@@ -41,6 +41,18 @@
             <strong>Lieu :</strong> {{ evt.Location }}<br>
             <small class="text-muted">{{ evt.Notes }}</small>
           </p>
+          <button type="submit"
+                    class="btn btn-primary"
+                    [disabled]=" userId === -1"
+                    (click)="onSubscribeEvent(evt.Id)"
+                    >
+              @if (isSubscribingEvent() && eventClicked == evt.Id) {
+              <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+              } @else {
+              <i class="fa-solid fa-calendar-plus me-2"></i>
+              }
+              {{ isSubscribingEvent() && eventClicked == evt.Id ? 'Inscription...' : 'Inscrire' }}
+            </button>
         </div>
         <div class="card-footer text-end">
           <span class="badge bg-info">Participants max : {{ evt.MaxParticipants || 'N/A' }}</span>
