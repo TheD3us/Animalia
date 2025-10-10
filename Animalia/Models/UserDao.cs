@@ -42,12 +42,18 @@ namespace Animalia.Models
             context.SaveChanges();
         }
 
-        public bool VerifLoginMdp(string login, string Mdp)
+        public int VerifLoginMdp(string login, string Mdp)
         {
             AnimaliaDbEntities context = new AnimaliaDbEntities();
-            Users u = context.Users.Where(a => a.Email == login && a.Password == Mdp).First();
-            return u != null;
+            return context.Users.Where(a => a.Email == login && a.Password == Mdp).First().Id;
             
+        }
+
+        public List<Events> SelectEventParticipation(int id)
+        {
+            AnimaliaDbEntities context = new AnimaliaDbEntities();
+
+            return context.Users.Where(u => u.Id == id).SelectMany(u => u.Events1).ToList();
         }
     }
 }

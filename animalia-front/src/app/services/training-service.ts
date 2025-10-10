@@ -14,8 +14,8 @@ export class TrainingService {
     return this.http.get<Training[]>(environment.apiUrl + "training");
   }
 
-  get(id: number){
-    return this.http.get(environment.apiUrl + "training/" + id);
+  get(id: number): Observable<Training>{
+    return this.http.get<Training>(environment.apiUrl + "training/" + id);
   }
 
   post(data: Training){
@@ -52,5 +52,9 @@ export class TrainingService {
         console.log("crud service put training OK");
 
       });
+  }
+
+  getByUser(id: number){
+    return this.http.get(environment.apiUrl + "training/getuser/" + id)
   }
 }

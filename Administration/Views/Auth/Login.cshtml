@@ -1,0 +1,64 @@
+@model Administration.Models.LoginModel
+
+@{
+    ViewData["Title"] = "Connexion - Administration Animalia";
+    Layout = "_LoginLayout";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow">
+            <div class="card-header text-center">
+                <h3 class="mb-0">
+                    <i class="fas fa-paw text-primary"></i>
+                    Administration Animalia
+                </h3>
+                <p class="text-muted mb-0">Connexion requise</p>
+            </div>
+            <div class="card-body">
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        @TempData["ErrorMessage"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
+
+                <form asp-action="Login" method="post">
+                    <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Username" class="form-label">
+                            <i class="fas fa-envelope"></i> Email
+                        </label>
+                        <input asp-for="Username" type="email" class="form-control" placeholder="admin@animalia.com" autofocus required />
+                        <span asp-validation-for="Username" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label">
+                            <i class="fas fa-lock"></i> @Html.DisplayNameFor(m => m.Password)
+                        </label>
+                        <input asp-for="Password" type="password" class="form-control" placeholder="Entrez votre mot de passe" required />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3 form-check">
+                        <input asp-for="RememberMe" class="form-check-input" type="checkbox" />
+                        <label asp-for="RememberMe" class="form-check-label">
+                            @Html.DisplayNameFor(m => m.RememberMe)
+                        </label>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-sign-in-alt"></i> Se connecter
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

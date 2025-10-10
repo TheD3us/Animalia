@@ -37,10 +37,18 @@ namespace Animalia.Controllers
             new UserDao().Delete(id);
         }
 
+        [HttpGet]
         [Route("api/user/verif")]
-        public bool VerifLoginMdp(string login, string Mdp)
+        public int VerifLoginMdp([FromUri]string login, [FromUri]string mdp)
         {
-            return new UserDao().VerifLoginMdp(login, Mdp);
+            return new UserDao().VerifLoginMdp(login, mdp);
+        }
+
+        [HttpGet]
+        [Route("api/user/events/{id:int}")]
+        public List<Events> SelectEventParticipation(int id)
+        {
+            return new UserDao().SelectEventParticipation(id);
         }
     }
 }

@@ -1,0 +1,66 @@
+@model Administration.Models.Entities.Event
+
+@{
+    ViewData["Title"] = "Créer un événement";
+    var currentUser = ViewBag.CurrentUser as Administration.Models.Entities.User;
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        @if (currentUser != null)
+        {
+            <div class="alert alert-info">
+                <i class="fas fa-user"></i> Organisateur: <strong>@currentUser.FullName</strong> (@currentUser.Email)
+            </div>
+        }
+
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="mb-3">
+                <label asp-for="Title" class="form-label"></label>
+                <input asp-for="Title" class="form-control" placeholder="Ex: Sortie au parc Animalia" required />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="DateTime" class="form-label"></label>
+                <input asp-for="DateTime" type="datetime-local" class="form-control" required />
+                <span asp-validation-for="DateTime" class="text-danger"></span>
+                <div class="form-text">Date et heure de début de l'événement</div>
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="Location" class="form-label"></label>
+                <input asp-for="Location" class="form-control" placeholder="Ex: Parc central, entrée principale" required />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="Notes" class="form-label"></label>
+                <textarea asp-for="Notes" class="form-control" rows="3" 
+                          placeholder="Détails supplémentaires pour les participants..."></textarea>
+                <span asp-validation-for="Notes" class="text-danger"></span>
+                <div class="form-text">Informations complémentaires pour les participants (optionnel)</div>
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="MaxParticipants" class="form-label"></label>
+                <input asp-for="MaxParticipants" type="number" class="form-control" min="1" max="100" placeholder="10" />
+                <span asp-validation-for="MaxParticipants" class="text-danger"></span>
+                <div class="form-text">Nombre maximum de participants autorisés (laissez vide pour illimité)</div>
+            </div>
+            
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a asp-action="Index" class="btn btn-secondary me-md-2">
+                    <i class="fas fa-times"></i> Annuler
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Créer l'événement
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

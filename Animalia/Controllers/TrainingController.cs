@@ -36,5 +36,11 @@ namespace Animalia.Controllers
         {
             new TrainingDao().Delete(id);
         }
+
+        [Route("api/training/getuser")]
+        public List<Trainings> GetByUser(int id)
+        {
+            return new TrainingDao().GetByUser(id);
+        }
     }
 }

@@ -54,7 +54,12 @@ export class UserService {
       });
   }
 
-  verifLogin(login: string, mdp: string): Observable<boolean>{
-    return this.http.get<boolean>(`${environment.apiUrl}/user/verif`, {params:{login, mdp}});
+  verifLogin(login: string, mdp: string): Observable<number>{
+    return this.http.get<number>(`${environment.apiUrl}user/verif`, {params:{login, mdp}});
+  }
+
+  selectEventParticipation(id: number): Observable<Event[]>{
+    return this.http.get<Event[]>(environment.apiUrl + "user/events/" + id)
   }
 }
+
