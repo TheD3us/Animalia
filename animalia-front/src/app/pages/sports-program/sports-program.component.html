@@ -50,61 +50,6 @@
   </div>
 </section>
 
-
-<!-- ====== PROPOSITION D'ENTRAÎNEMENT ====== -->
-<!--<section class="container my-5">
-  <h2 class="mb-4 text-center">Proposer un Entraînement</h2>
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card shadow-sm">
-        <div class="card-body">
-          <form [formGroup]="proposalForm" (ngSubmit)="onSubmitProposal()">
-            <div class="mb-3">
-              <label for="titre" class="form-label">Titre</label>
-              <input type="text"
-                     class="form-control"
-                     id="titre"
-                     formControlName="titre"
-                     [class.is-invalid]="proposalForm.get('titre')?.invalid && proposalForm.get('titre')?.touched"
-                     placeholder="Nom de l'entraînement">
-              @if (proposalForm.get('titre')?.invalid && proposalForm.get('titre')?.touched) {
-              <div class="invalid-feedback">
-                Le titre est requis (min. 3 caractères)
-              </div>
-              }
-            </div>
-            <div class="mb-3">
-              <label for="description" class="form-label">Description</label>
-              <textarea class="form-control"
-                        id="description"
-                        rows="3"
-                        formControlName="description"
-                        [class.is-invalid]="proposalForm.get('description')?.invalid && proposalForm.get('description')?.touched"
-                        placeholder="Décrivez votre idée d'entraînement..."></textarea>
-              @if (proposalForm.get('description')?.invalid && proposalForm.get('description')?.touched) {
-              <div class="invalid-feedback">
-                La description est requise (min. 10 caractères)
-              </div>
-              }
-            </div>
-            <div class="text-center">
-              <button type="submit"
-                      class="btn btn-success"
-                      [disabled]="proposalForm.invalid || isSubmittingProposal()">
-                @if (isSubmittingProposal()) {
-                <span class="spinner-border spinner-border-sm me-2" role="status"></span>
-                } @else {
-                <i class="fa-solid fa-paper-plane me-2"></i>
-                }
-                {{ isSubmittingProposal() ? 'Envoi...' : 'Envoyer' }}
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>-->
 <!-- ====== PROPOSITION D'ENTRAÎNEMENT ====== -->
 <section class="container my-5">
   <h2 class="mb-4 text-center">Proposer un Entraînement</h2>
@@ -121,9 +66,9 @@
                      class="form-control"
                      id="title"
                      formControlName="title"
-                     [class.is-invalid]="proposalForm.get('title')?.invalid && proposalForm.get('title')?.touched"
+                     [class.is-invalid]="proposalForm.get('Title')?.invalid && proposalForm.get('Title')?.touched"
                      placeholder="Nom de l'entraînement">
-              <div *ngIf="proposalForm.get('title')?.invalid && proposalForm.get('title')?.touched" class="invalid-feedback">
+              <div *ngIf="proposalForm.get('Title')?.invalid && proposalForm.get('Title')?.touched" class="invalid-feedback">
                 Le titre est requis (min. 3 caractères)
               </div>
             </div>
@@ -135,9 +80,9 @@
                      class="form-control"
                      id="durationMinutes"
                      formControlName="durationMinutes"
-                     [class.is-invalid]="proposalForm.get('durationMinutes')?.invalid && proposalForm.get('durationMinutes')?.touched"
+                     [class.is-invalid]="proposalForm.get('DurationMinutes')?.invalid && proposalForm.get('DurationMinutes')?.touched"
                      placeholder="Ex: 30">
-              <div *ngIf="proposalForm.get('durationMinutes')?.invalid && proposalForm.get('durationMinutes')?.touched" class="invalid-feedback">
+              <div *ngIf="proposalForm.get('DurationMinutes')?.invalid && proposalForm.get('DurationMinutes')?.touched" class="invalid-feedback">
                 La durée est requise (minimum 5 minutes)
               </div>
             </div>
@@ -149,9 +94,9 @@
                      class="form-control"
                      id="equipment"
                      formControlName="equipment"
-                     [class.is-invalid]="proposalForm.get('equipment')?.invalid && proposalForm.get('equipment')?.touched"
+                     [class.is-invalid]="proposalForm.get('Equipment')?.invalid && proposalForm.get('Equipment')?.touched"
                      placeholder="Ex: Tapis, haltères, longe...">
-              <div *ngIf="proposalForm.get('equipment')?.invalid && proposalForm.get('equipment')?.touched" class="invalid-feedback">
+              <div *ngIf="proposalForm.get('Equipment')?.invalid && proposalForm.get('Equipment')?.touched" class="invalid-feedback">
                 Le matériel est requis (min. 2 caractères)
               </div>
             </div>
@@ -162,13 +107,13 @@
               <select class="form-select"
                       id="level"
                       formControlName="level"
-                      [class.is-invalid]="proposalForm.get('level')?.invalid && proposalForm.get('level')?.touched">
+                      [class.is-invalid]="proposalForm.get('Level')?.invalid && proposalForm.get('Level')?.touched">
                 <option value="">-- Choisir un niveau --</option>
                 <option value="Facile">Facile</option>
                 <option value="Moyen">Moyen</option>
                 <option value="Difficile">Difficile</option>
               </select>
-              <div *ngIf="proposalForm.get('level')?.invalid && proposalForm.get('level')?.touched" class="invalid-feedback">
+              <div *ngIf="proposalForm.get('Level')?.invalid && proposalForm.get('Level')?.touched" class="invalid-feedback">
                 Le niveau est requis
               </div>
             </div>
@@ -177,7 +122,7 @@
             <div class="text-center">
               <button type="submit"
                       class="btn btn-success"
-                      [disabled]="proposalForm.invalid || isSubmittingProposal()">
+                      [disabled]="proposalForm.invalid || isSubmittingProposal() || userId === -1">
                 <ng-container *ngIf="isSubmittingProposal(); else sendIcon">
                   <span class="spinner-border spinner-border-sm me-2" role="status"></span>
                   Envoi...
@@ -189,7 +134,7 @@
             </div>
             @if (userId === -1) {
             <p>
-              Il Faut vous connecter pour poster un Entrainement
+              Il Faut vous connecter pour poster un entrainement
             <p>
               }
           </form>
@@ -249,6 +194,32 @@
               </div>
               }
             </div>
+            <div class="mb-3">
+              <label for="lieuEvent" class="form-label">Note</label>
+              <input type="text"
+                     class="form-control"
+                     id="note"
+                     formControlName="note"
+                     [class.is-invalid]="eventForm.get('note')?.invalid && eventForm.get('note')?.touched"
+                     placeholder="Précisions que vous souhaiteriez apporter">
+              @if (eventForm.get('note')?.invalid && eventForm.get('note')?.touched) {
+              
+              }
+            </div>
+            <div class="mb-3">
+              <label for="maxParticipants" class="form-label">Max Participants</label>
+              <input type="text"
+                     class="form-control"
+                     id="maxParticipants"
+                     formControlName="maxParticipants"
+                     [class.is-invalid]="eventForm.get('maxParticipants')?.invalid && eventForm.get('maxParticipants')?.touched"
+                     placeholder="min 2 - max 100">
+              @if (eventForm.get('maxParticipants')?.invalid && eventForm.get('maxParticipants')?.touched) {
+              <div class="invalid-feedback">
+                Le nombre de participants est requis
+              </div>
+              }
+            </div>
             <div class="text-center">
               <button type="submit"
                       class="btn btn-primary"
@@ -265,7 +236,7 @@
             @if (userId === -1) {
             <p>
               Il Faut vous connecter pour poster un évènement
-            <p>
+            </p>
               }
           </form>
         </div>

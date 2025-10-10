@@ -54,15 +54,15 @@
       <div class="col-md-6 mb-4" *ngFor="let training of trainings">
         <div class="card h-100 shadow-sm">
           <div class="card-body">
-            <h5 class="card-title">{{ training.title }}</h5>
+            <h5 class="card-title">{{ training.Title }}</h5>
             <ul class="list-unstyled mb-3">
-              <li><i class="fa-solid fa-clock text-primary me-2"></i> Durée : {{ training.durationMinutes }} min</li>
-              <li><i class="fa-solid fa-signal text-primary me-2"></i> Niveau : {{ training.level }}</li>
-              <li><i class="fa-solid fa-tools text-primary me-2"></i> Matériel : {{ training.equipment }}</li>
+              <li><i class="fa-solid fa-clock text-primary me-2"></i> Durée : {{ training.DurationMinutes }} min</li>
+              <li><i class="fa-solid fa-signal text-primary me-2"></i> Niveau : {{ training.Level }}</li>
+              <li><i class="fa-solid fa-tools text-primary me-2"></i> Matériel : {{ training.Equipment }}</li>
             </ul>
             <button class="btn btn-outline-success w-100" (click)="addToCart(training)">
               <i class="fa-solid fa-cart-plus me-2"></i>
-              Ajouter "{{ training.title }}" au panier
+              Ajouter "{{ training.Title }}" au panier
             </button>
           </div>
         </div>
