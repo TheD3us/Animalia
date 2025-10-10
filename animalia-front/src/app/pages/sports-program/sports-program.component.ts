@@ -179,8 +179,11 @@ export class SportsProgramComponent {
   ];
 
   protected readonly proposalForm = this.fb.group({
-    titre: ['', [Validators.required, Validators.minLength(3)]],
-    description: ['', [Validators.required, Validators.minLength(10)]]
+
+    title: ['', [Validators.required, Validators.minLength(3)]],
+    durationMinutes: [0, [Validators.required, Validators.min(5)]],
+    equipment: ['', [Validators.required, Validators.minLength(2)]],
+    level: ['', [Validators.required]]
   });
 
   protected readonly eventForm = this.fb.group({
@@ -199,18 +202,20 @@ export class SportsProgramComponent {
       this.isSubmittingProposal.set(true);
       const data = this.proposalForm.value;
 
-      const newProgramModel = {
-        Id: 0,
-        Title: data.titre!,
-        Summary: data.description!,
-        Difficulty: 'Facile',
-        Price: 0,
-        ImageUrl: ''
+
+      const newTraining: Training = {
+        Id: 0, // l’API génère l’ID
+        Title: data.title!,
+        Description: '',
+        DurationMinutes: data.durationMinutes!,
+        Equipment: data.equipment!,
+        Level: data.level!,
+        UserId: this.userId
+
       };
 
       this.programService.post(newProgramModel); // le subscribe est dans le service
 
-      // On recharge la liste après un petit délai (pour laisser l’API répondre)
       setTimeout(() => {
         this.loadProgramModels();
         this.isSubmittingProposal.set(false);
@@ -234,8 +239,6 @@ export class SportsProgramComponent {
         MaxParticipants: data.maxParticipants ? Number(data.maxParticipants) : undefined
       });
       
-      
-
       // Le .subscribe() est dans le service.
       setTimeout(() => {
         this.isSubmittingEvent.set(false);
@@ -245,14 +248,6 @@ export class SportsProgramComponent {
   }
 
 
-  //onProgramCardClick(programId: string) {
-  //  console.log('Programme sélectionné:', programId);
-  //  if (this.workouts.find(w => w.id === programId)) {
-  //    window.location.href = `/workout/${programId}`;
-  //  } else {
-  //    console.log('Pack sélectionné:', programId);
-  //  }
-  //}
 
   onProgramCardClick(programId: string) {
     console.log('Programme sélectionné:', programId);
