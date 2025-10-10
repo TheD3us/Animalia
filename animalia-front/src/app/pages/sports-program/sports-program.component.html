@@ -194,6 +194,32 @@
               </div>
               }
             </div>
+            <div class="mb-3">
+              <label for="lieuEvent" class="form-label">Note</label>
+              <input type="text"
+                     class="form-control"
+                     id="note"
+                     formControlName="note"
+                     [class.is-invalid]="eventForm.get('note')?.invalid && eventForm.get('note')?.touched"
+                     placeholder="Précisions que vous souhaiteriez apporter">
+              @if (eventForm.get('note')?.invalid && eventForm.get('note')?.touched) {
+              
+              }
+            </div>
+            <div class="mb-3">
+              <label for="maxParticipants" class="form-label">Max Participants</label>
+              <input type="text"
+                     class="form-control"
+                     id="maxParticipants"
+                     formControlName="maxParticipants"
+                     [class.is-invalid]="eventForm.get('maxParticipants')?.invalid && eventForm.get('maxParticipants')?.touched"
+                     placeholder="min 2 - max 100">
+              @if (eventForm.get('maxParticipants')?.invalid && eventForm.get('maxParticipants')?.touched) {
+              <div class="invalid-feedback">
+                Le nombre de participants est requis
+              </div>
+              }
+            </div>
             <div class="text-center">
               <button type="submit"
                       class="btn btn-primary"
@@ -210,7 +236,7 @@
             @if (userId === -1) {
             <p>
               Il Faut vous connecter pour poster un évènement
-            <p>
+            </p>
               }
           </form>
         </div>
