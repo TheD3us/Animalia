@@ -41,5 +41,12 @@ namespace Animalia.Controllers
         {
             new EventDao().Delete(id);
         }
+
+        [HttpGet]
+        [Route("api/event/count/{idEvent:int}")]
+        public int countNbParticipant(int idEvent)
+        {
+            return new EventDao().countNbParticipant(idEvent);
+        }
     }
 }

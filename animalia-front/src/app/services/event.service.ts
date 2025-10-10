@@ -43,5 +43,9 @@ export class EventService {
     });
   }
 
+  countNbParticipants(eventId: number) {
+    return this.http.get<number>(environment.apiUrl + "event/count/" + eventId);
+  }
+
 
 }
