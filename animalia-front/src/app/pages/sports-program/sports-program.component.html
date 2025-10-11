@@ -13,12 +13,26 @@
       <app-program-card [program]="workout"
                         [showFeatures]="false"
                         (cardClick)="onProgramCardClick($event)">
+
       </app-program-card>
+
+
+      <!-- Boutons admin -->
+      <div class="mt-2 text-end" *ngIf="authService.isAdmin()">
+        <!--<button class="btn btn-warning btn-sm me-2" (click)="onEditProgram(+workout.id)">
+          <i class="fa-solid fa-pen"></i> Modifier
+        </button>-->
+        <button class="btn btn-danger btn-sm" (click)="onDeleteProgram(+workout.id)">
+          <i class="fa-solid fa-trash"></i> Supprimer
+        </button>
+      </div>
     </div>
 
   </div>
 
 </section>
+
+<br />
 
 <!-- ====== LISTE DES ÉVÉNEMENTS ====== -->
 <section class="container my-5">

@@ -60,12 +60,11 @@ export class MyPurchasesComponent implements OnInit {
   }
 
   loadScheduledEvents() {
-    this.authService.whoIsLoggedIn().subscribe((userId: number) => {
-      if (userId) {
-        this.userService.selectEventParticipation(userId).subscribe((events) => {
-          this.scheduledEvents = events;
-        });
-      }
-    });
-  }  
+    const user = this.authService.whoIsLoggedIn(); // maintenant renvoie User | null
+    if (user && user.Id) {
+      this.userService.selectEventParticipation(user.Id).subscribe((events) => {
+        this.scheduledEvents = events;
+      });
+    }
+  }
 }

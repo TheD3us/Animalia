@@ -9,6 +9,7 @@ import { AuthService } from '../../services/auth.service';
 import { TrainingService } from '../../services/training-service';
 import { Training } from '../../interfaces/training';
 import { UserService } from '../../services/user-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sports-program',
@@ -26,7 +27,8 @@ export class SportsProgramComponent {
     private programService: ProgramModelService,
     private trainingService: TrainingService,
     private userService : UserService,
-    private authService: AuthService
+    public authService: AuthService,
+    private router: Router
 
   ) { }
 
@@ -41,14 +43,12 @@ export class SportsProgramComponent {
   ngOnInit(): void {
     this.loadEvents();
     this.loadProgramModels();
-    this.authService.whoIsLoggedIn().subscribe(res => {
-      if(res != undefined)
-      {
-        this.userId = res;
-      }
-      
-      console.log("Id de l'user qui poste l'envent : ", res);
-    })
+
+    const user = this.authService.whoIsLoggedIn();
+    if (user) {
+      this.userId = user.Id;
+      console.log("Id de l'user qui poste l'event :", this.userId);
+    }
   }
   programCards: ProgramCard[] = [];
 
@@ -193,5 +193,27 @@ export class SportsProgramComponent {
       }
     }); 
   }
+
+  //onEditProgram(id: number) {
+  //  this.router.navigate(['/program/edit', id]);
+  //}
+
+  onDeleteProgram(id: number) {
+    if (confirm('Voulez-vous vraiment supprimer ce programme ?')) {
+      this.programService.delete(id); // subscribe dans le service
+      this.loadProgramModels();
+    }
+  }
+
+  //onEditEvent(id: number) {
+  //  this.router.navigate(['/event/edit', id]);
+  //}
+
+  //onDeleteEvent(id: number) {
+  //  if (confirm('Voulez-vous vraiment supprimer cet événement ?')) {
+  //    this.eventService.delete(id); // subscribe dans le service
+  //    this.loadEvents();
+  //  }
+  //}
 
 }
