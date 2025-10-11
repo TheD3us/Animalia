@@ -9,6 +9,7 @@
 
 namespace Animalia.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -27,9 +28,10 @@ namespace Animalia.Models
         public string Location { get; set; }
         public string Notes { get; set; }
         public Nullable<int> MaxParticipants { get; set; }
-    
+        [JsonIgnore]
         public virtual Users Users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
         public virtual ICollection<Users> Users1 { get; set; }
     }
 }

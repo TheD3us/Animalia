@@ -63,7 +63,7 @@ export class UserService {
   }
 
   selectEventParticipation(id: number): Observable<Event[]>{
-    return this.http.get<Event[]>(environment.apiUrl + "user/events/" + id)
+    return this.http.get<Event[]>(environment.apiUrl + "user/eventsscheduled/" + id)
   }
 
   eventSubscription(userId: number, eventId: number){

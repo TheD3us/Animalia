@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { PurchaseService, PurchasedWorkout } from '../../services/purchase.service';
 import { AuthService } from '../../services/auth.service';
-import { EventService } from '../../services/event.service';
 import { UserService } from '../../services/user-service';
 import { Event } from '../../interfaces/events';
 
@@ -33,6 +32,7 @@ export class MyPurchasesComponent implements OnInit {
       this.isLoggedIn = loggedIn;
       if (loggedIn) {
         this.loadPurchasedWorkouts();
+        this.loadScheduledEvents();
       }
     });
   }
