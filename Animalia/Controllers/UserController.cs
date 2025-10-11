@@ -65,7 +65,7 @@ namespace Animalia.Controllers
         }
 
         [HttpGet]
-        [Route("api/user/events/{id:int}")]
+        [Route("api/user/eventsscheduled/{id:int}")]
         public List<Events> SelectEventParticipation(int id)
         {
             return new UserDao().SelectEventParticipation(id);

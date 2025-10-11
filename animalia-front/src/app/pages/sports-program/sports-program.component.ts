@@ -19,6 +19,7 @@ import { Router } from '@angular/router';
   styleUrl: './sports-program.component.scss'
 })
 export class SportsProgramComponent {
+
   private readonly fb = new FormBuilder();
 
   constructor(
@@ -36,6 +37,8 @@ export class SportsProgramComponent {
   programModels: any[] = [];
   userId: number = -1;
   eventClicked: number = -1;
+  numberOfParticipants: number = 0;
+  numberOfParticipantsMap: { [eventId: number]: number } = {};
 
   ngOnInit(): void {
     this.loadEvents();
@@ -77,6 +80,12 @@ export class SportsProgramComponent {
       next: (data: any) => {
         console.log(data);
         this.events = data;
+        // Charger le nombre de participants pour chaque événement
+        this.events.forEach(evt => {
+          this.eventService.countNbParticipants(evt.Id).subscribe(nb => {
+            this.numberOfParticipantsMap[evt.Id] = nb;
+          });
+        });
       },
       error: (err) => {
         console.error("Erreur lors du chargement des événements", err);
@@ -176,6 +185,14 @@ export class SportsProgramComponent {
       window.location.href = `/workout/${programId}`;
     }
   }
+  
+  verifNbParticipants(eventId: number) {
+    this.eventService.countNbParticipants(eventId).subscribe({
+      next: (data: number) => {
+        this.numberOfParticipants = data;
+      }
+    }); 
+  }
 
   //onEditProgram(id: number) {
   //  this.router.navigate(['/program/edit', id]);
@@ -198,6 +215,5 @@ export class SportsProgramComponent {
   //    this.loadEvents();
   //  }
   //}
-
 
 }

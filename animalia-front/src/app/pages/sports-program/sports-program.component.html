@@ -47,41 +47,35 @@
 
   <div class="row row-cols-1 row-cols-md-2 g-4">
     <div class="col" *ngFor="let evt of events">
-      <div class="card shadow-sm h-100">
-        <div class="card-body">
-          <h5 class="card-title">{{ evt.Title }}</h5>
-          <p class="card-text">
-            <strong>Date :</strong> {{ evt.DateTime | date:'shortDate' }}<br>
-            <strong>Lieu :</strong> {{ evt.Location }}<br>
-            <small class="text-muted">{{ evt.Notes }}</small>
-          </p>
-          <button type="submit"
-                  class="btn btn-primary"
-                  [disabled]=" userId === -1"
-                  (click)="onSubscribeEvent(evt.Id)">
-            @if (isSubscribingEvent() && eventClicked == evt.Id) {
-            <span class="spinner-border spinner-border-sm me-2" role="status"></span>
-            } @else {
-            <i class="fa-solid fa-calendar-plus me-2"></i>
-            }
-            {{ isSubscribingEvent() && eventClicked == evt.Id ? 'Inscription...' : 'Inscrire' }}
-          </button>
-
-          <!-- Boutons admin -->
-          <!--<div *ngIf="authService.isAdmin()" class="mt-2">
-            <button class="btn btn-warning btn-sm me-2" (click)="onEditEvent(evt.Id)">
-              <i class="fa-solid fa-pen"></i> Modifier
-            </button>
-            <button class="btn btn-danger btn-sm" (click)="onDeleteEvent(evt.Id)">
-              <i class="fa-solid fa-trash"></i> Supprimer
-            </button>
-          </div>-->
-
-        </div>
+      @if(evt.MaxParticipants != numberOfParticipantsMap[evt.Id]){
+        <div class="card shadow-sm h-100">
+          <div class="card-body">
+            <h5 class="card-title">{{ evt.Title }}</h5>
+            <p class="card-text">
+              <strong>Date :</strong> {{ evt.DateTime | date:'shortDate' }}<br>
+              <strong>Lieu :</strong> {{ evt.Location }}<br>
+              <small class="text-muted">{{ evt.Notes }}</small>
+            </p>
+            <button type="submit"
+                      class="btn btn-primary"
+                      [disabled]=" userId === -1 "
+                      (click)="onSubscribeEvent(evt.Id)"
+                      >
+                    
+                @if (isSubscribingEvent() && eventClicked == evt.Id) {
+                <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                } @else {
+                <i class="fa-solid fa-calendar-plus me-2"></i>
+                }
+                {{ isSubscribingEvent() && eventClicked == evt.Id ? 'Inscription...' : 'Inscrire' }}
+              </button>
+          </div>
         <div class="card-footer text-end">
-          <span class="badge bg-info">Participants max : {{ evt.MaxParticipants || 'N/A' }}</span>
+          <span class="badge bg-info">Participants : {{numberOfParticipantsMap[evt.Id] || 0}} / {{ evt.MaxParticipants || 'N/A' }}</span>
         </div>
       </div>
+      }
+      
     </div>
   </div>
 </section>

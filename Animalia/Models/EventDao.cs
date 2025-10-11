@@ -42,5 +42,11 @@ namespace Animalia.Models
             context.SaveChanges();
         }
 
+        public int countNbParticipant(int idEvent)
+        {
+            AnimaliaDbEntities context = new AnimaliaDbEntities();
+            return context.Events.Where(e => e.Id == idEvent).SelectMany(e => e.Users1).Count();
+        }
+
     }
 }
