@@ -52,7 +52,7 @@ namespace Animalia.Models
         {
             AnimaliaDbEntities context = new AnimaliaDbEntities();
 
-            return context.Users.Where(u => u.Id == idUser).Select(u => u.Events1.Where(e => e.Id == idEvent).Select(e => e.Id)).First().First() == idEvent;
+            return context.Users.Where(u => u.Id == idUser).SelectMany(u => u.Events1).Any(e => e.Id == idEvent);
         }
 
     }
