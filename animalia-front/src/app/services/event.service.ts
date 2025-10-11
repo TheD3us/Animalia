@@ -47,5 +47,9 @@ export class EventService {
     return this.http.get<number>(environment.apiUrl + "event/count/" + eventId);
   }
 
+  verifParticipation(userId: number, eventId: number  ) {
+    return this.http.get<boolean>(environment.apiUrl + "event/isScheduled", {params: { idUser: userId, idEvent: eventId }});
+  }
+
 
 }

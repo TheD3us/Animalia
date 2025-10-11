@@ -131,7 +131,7 @@ export class AuthService {
     }
   }
 
-  whoIsLoggedIn(): user | null {
+  whoIsLoggedIn(): user | null{
     return this.currentUser;
   }
 

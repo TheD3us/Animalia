@@ -47,7 +47,8 @@
 
   <div class="row row-cols-1 row-cols-md-2 g-4">
     <div class="col" *ngFor="let evt of events">
-      @if(evt.MaxParticipants != numberOfParticipantsMap[evt.Id]){
+      @if(evt.MaxParticipants != numberOfParticipantsMap[evt.Id] && 
+            userParticipation[evt.Id] == false) {
         <div class="card shadow-sm h-100">
           <div class="card-body">
             <h5 class="card-title">{{ evt.Title }}</h5>

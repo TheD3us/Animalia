@@ -48,5 +48,12 @@ namespace Animalia.Models
             return context.Events.Where(e => e.Id == idEvent).SelectMany(e => e.Users1).Count();
         }
 
+        public bool verifParticipation(int idUser, int idEvent)
+        {
+            AnimaliaDbEntities context = new AnimaliaDbEntities();
+
+            return context.Users.Where(u => u.Id == idUser).Select(u => u.Events1.Where(e => e.Id == idEvent).Select(e => e.Id)).First().First() == idEvent;
+        }
+
     }
 }
