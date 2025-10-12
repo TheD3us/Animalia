@@ -30,6 +30,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/workout-detail/workout-detail.component').then(m => m.WorkoutDetailComponent) 
   },
   { 
+    path: 'testimonial', 
+    loadComponent: () => import('./pages/testimonial-form/testimonial-form').then(m => m.TestimonialForm) 
+  },
+  { 
     path: '**', 
     redirectTo: '' 
   }
