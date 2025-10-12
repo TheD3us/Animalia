@@ -48,5 +48,12 @@ namespace Animalia.Controllers
         {
             return new EventDao().countNbParticipant(idEvent);
         }
+
+        [HttpGet]
+        [Route("api/event/isScheduled")]
+        public bool verifParticipation([FromUri]int idUser, [FromUri]int idEvent)
+        {
+            return new EventDao().verifParticipation(idUser, idEvent);
+        }
     }
 }

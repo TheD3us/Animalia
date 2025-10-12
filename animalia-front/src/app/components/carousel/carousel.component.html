@@ -35,8 +35,16 @@
                 </div>
               }
             </div>
+            <app-star-rating 
+              [value]="item.rating || 0"
+              [readonly]="true"
+              [maxStars]="5"
+              [size]="'24px'">
+            </app-star-rating>
           </div>
         }
+        
+        
       </div>
     }
   </div>

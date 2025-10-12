@@ -39,16 +39,19 @@ export class SportsProgramComponent {
   eventClicked: number = -1;
   numberOfParticipants: number = 0;
   numberOfParticipantsMap: { [eventId: number]: number } = {};
+  userParticipation: { [eventId: number]: boolean } = {};
 
   ngOnInit(): void {
+    
+
+    const loggedInUser = this.authService.whoIsLoggedIn();
+    this.userId = loggedInUser ? loggedInUser.Id : -1;
+
     this.loadEvents();
     this.loadProgramModels();
-
-    const user = this.authService.whoIsLoggedIn();
-    if (user) {
-      this.userId = user.Id;
-      console.log("Id de l'user qui poste l'event :", this.userId);
-    }
+    console.log("Id de l'user qui poste l'event :", this.userId);
+ 
+    
   }
   programCards: ProgramCard[] = [];
 
@@ -84,6 +87,11 @@ export class SportsProgramComponent {
         this.events.forEach(evt => {
           this.eventService.countNbParticipants(evt.Id).subscribe(nb => {
             this.numberOfParticipantsMap[evt.Id] = nb;
+          });
+          this.eventService.verifParticipation(this.userId, evt.Id).subscribe({
+            next: (isParticipating: boolean) => {
+              this.userParticipation[evt.Id] = isParticipating;
+            }
           });
         });
       },
@@ -185,14 +193,6 @@ export class SportsProgramComponent {
       window.location.href = `/workout/${programId}`;
     }
   }
-  
-  verifNbParticipants(eventId: number) {
-    this.eventService.countNbParticipants(eventId).subscribe({
-      next: (data: number) => {
-        this.numberOfParticipants = data;
-      }
-    }); 
-  }
 
   //onEditProgram(id: number) {
   //  this.router.navigate(['/program/edit', id]);
@@ -204,6 +204,7 @@ export class SportsProgramComponent {
       this.loadProgramModels();
     }
   }
+
 
   //onEditEvent(id: number) {
   //  this.router.navigate(['/event/edit', id]);

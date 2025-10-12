@@ -1,0 +1,58 @@
+<section class="testimonial-form">
+  <h2 class="mb-4 text-center">Déposer un avis</h2>
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-sm">
+        <div class="card-body">
+            <form [formGroup]="testimonialFormFb" (ngSubmit)="onSubmit()" >
+                <div class="mb-3">
+                <label for="name">Nom:</label>
+                    <input type="text"
+                                class="form-control"
+                                id="AuthorName"
+                                formControlName="AuthorName"
+                                [class.is-invalid]="testimonialFormFb.get('AuthorName')?.invalid && testimonialFormFb.get('AuthorName')?.touched"
+                                placeholder="Nom de l'auteur">
+                        @if(testimonialFormFb.get('AuthorName')?.invalid && testimonialFormFb.get('AuthorName')?.touched)
+                            {
+                                <div class="invalid-feedback">
+                                    Le nom est requis.
+                                </div>}  
+                        
+                        
+                </div>
+                <div class="mb-3">
+                <label for="text">Avis:</label>
+                    <input type="text"
+                                class="form-control"
+                                id="Text"
+                                formControlName="Text"
+                                [class.is-invalid]="testimonialFormFb.get('Text')?.invalid && testimonialFormFb.get('Text')?.touched"
+                                placeholder="Avis">
+                        @if(testimonialFormFb.get('Text')?.invalid && testimonialFormFb.get('Text')?.touched)
+                            {
+                                <div class="invalid-feedback">
+                                    Du texte est requis.
+                                </div>}  
+                        
+                </div>
+                <div>
+                    <label for="rating">Note:</label>
+                        <app-star-rating 
+                        formControlName="Rating"
+                        [size]="'32px'" 
+                        class="form-control"
+                        [class.is-invalid]="testimonialFormFb.get('Rating')?.invalid"
+                        [maxStars]="5">
+                        </app-star-rating>
+                </div>
+                
+                <button type="submit" [disabled]="!testimonialFormFb.valid">Submit</button>
+            </form>
+        </div>
+      </div>    
+    </div>
+    </div>
+</section>
+<app-star-rating [maxStars]="5" [size]="'32px'"></app-star-rating>
+
