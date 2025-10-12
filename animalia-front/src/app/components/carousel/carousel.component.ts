@@ -1,4 +1,5 @@
 import { Component, input, signal } from '@angular/core';
+import { StarRatingComponent } from '../star-rating.component/star-rating.component';
 
 export interface CarouselItem {
   id: string;
@@ -6,12 +7,13 @@ export interface CarouselItem {
   title?: string;
   content: string;
   author?: string;
+  rating?: number; // Note de 1 à 5
 }
 
 @Component({
   selector: 'app-carousel',
   standalone: true,
-  imports: [],
+  imports: [StarRatingComponent],
   templateUrl: './carousel.component.html',
   styleUrl: './carousel.component.scss'
 })

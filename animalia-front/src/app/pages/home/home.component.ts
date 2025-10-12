@@ -6,6 +6,7 @@ import { Testimonial } from '../../interfaces/testimonial';
 import { TestimonialService } from '../../services/testimonial-service';
 import { ProgramModel } from '../../interfaces/program-models';
 import { Router } from '@angular/router';
+import { StarRatingComponent } from "../../components/star-rating.component/star-rating.component";
 
 
 @Component({
@@ -73,7 +74,9 @@ export class HomeComponent {
       const testimonial: CarouselItem = {
         id : item.Id.toString(),
         content : item.Text,
-        author : item.AuthorName
+        author : item.AuthorName,
+        rating : item.Rating
+        
       }
       
       this.testimonials.push(testimonial);
